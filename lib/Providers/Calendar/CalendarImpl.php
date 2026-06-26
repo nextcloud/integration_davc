@@ -109,6 +109,24 @@ class CalendarImpl implements ICalendar {
 				if ($comp instanceof VTimeZone) {
 					$timezones[] = $this->transformComponent($comp);
 				} else {
+					// Skip instances whose start is before the range start so that
+					// stale occurrences don't consume result slots for future events.
+					// DATE-only events are compared by calendar date (not timestamp) so
+					// that today's all-day events are never treated as "past".
+					if ($start instanceof DateTimeInterface && $comp->DTSTART !== null) {
+						$dtStart = $comp->DTSTART->getDateTime();
+						if ($dtStart instanceof DateTimeInterface) {
+							$isDateOnly = !$comp->DTSTART->hasTime();
+							if ($isDateOnly) {
+								$startDay = (int)(new DateTimeImmutable($start->format('Y-m-d'), new \DateTimeZone('UTC')))->format('U');
+								if ($dtStart->getTimestamp() < $startDay) {
+									continue;
+								}
+							} elseif ($dtStart->getTimestamp() < $start->getTimestamp()) {
+								continue;
+							}
+						}
+					}
 					$objects[] = $this->transformComponent($comp);
 				}
 			}
@@ -161,9 +179,9 @@ class CalendarImpl implements ICalendar {
 		if ($offset !== null) {
 			$results = array_slice($results, $offset);
 		}
-		if ($limit !== null) {
-			$results = array_slice($results, 0, $limit);
-		}
+		// Do not apply the caller's limit: a widget passing limit=7 would silently drop
+		// events that sort beyond position 7 (e.g. all-day events after several timed ones).
+		// The dashboard widget sorts all calendars' results together and handles display limits itself.
 
 		return $results;
 	}
