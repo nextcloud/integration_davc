@@ -57,12 +57,9 @@ class Provider implements ICalendarProvider1, ICalendarProvider2 {
 	 */
 	public function fetchAllForCalendarHome(string $principalUri): array {
 		$userId = $this->extractUserId($principalUri);
-		// construct filter
 		$listFilter = $this->localService->collectionListFilter();
 		$listFilter->condition('uid', $userId);
-		// retrieve collection(s)
 		$collections = $this->localService->collectionList($listFilter);
-		// construct collection objects list
 		$list = [];
 		foreach ($collections as $entry) {
 			$collection = $this->collectionFromModel($entry);
@@ -77,23 +74,19 @@ class Provider implements ICalendarProvider1, ICalendarProvider2 {
 	 */
 	public function hasCalendarInCalendarHome(string $principalUri, string $calendarUri): bool {
 		$userId = $this->extractUserId($principalUri);
-		// check if collection is already cached
 		$collection = $this->cacheRetrieveCollection($userId, $calendarUri);
 		if ($collection) {
 			return true;
 		}
-		// construct filter
 		$listFilter = $this->localService->collectionListFilter();
 		$listFilter->condition('uid', $userId);
 		$listFilter->condition('uuid', $calendarUri);
-		// check if collection exists in store
 		$collections = $this->localService->collectionList($listFilter);
 		if ($collections !== []) {
 			$collection = $this->collectionFromModel(reset($collections));
 			$this->cacheStoreCollection($userId, $calendarUri, $collection);
 			return true;
 		}
-		// collection not found
 		return false;
 	}
 
@@ -102,23 +95,19 @@ class Provider implements ICalendarProvider1, ICalendarProvider2 {
 	 */
 	public function getCalendarInCalendarHome(string $principalUri, string $calendarUri): ?ExternalCalendar {
 		$userId = $this->extractUserId($principalUri);
-		// check if collection is already cached
 		$collection = $this->cacheRetrieveCollection($userId, $calendarUri);
 		if ($collection) {
 			return $collection;
 		}
-		// construct filter
 		$listFilter = $this->localService->collectionListFilter();
 		$listFilter->condition('uid', $userId);
 		$listFilter->condition('uuid', $calendarUri);
-		// check if collection exists in store
 		$collections = $this->localService->collectionList($listFilter);
 		if (count($collections) > 0) {
 			$collection = $this->collectionFromModel(reset($collections));
 			$this->cacheStoreCollection($userId, $calendarUri, $collection);
 			return $collection;
 		}
-		// collection not found
 		return null;
 	}
 

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAVC\AppInfo;
 
 use OCA\DAVC\Events\UserDeletedListener;
+use OCA\DAVC\Providers\Calendar\CalendarProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -32,6 +33,9 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
+
+		// register calendar provider so DAV Connector calendars appear in dashboard/search
+		$context->registerCalendarProvider(CalendarProvider::class);
 
 		// register event handlers
 		$dispatcher = $this->getContainer()->get(IEventDispatcher::class);
