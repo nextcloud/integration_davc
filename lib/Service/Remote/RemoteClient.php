@@ -564,8 +564,16 @@ class RemoteClient {
 			return [];
 		}
 
-		/** @var MultiStatus $multistatus */
-		$multistatus = (new SabreXmlService())->expect(self::DAV_MULTISTATUS, $body);
+		try {
+			$multistatus = (new SabreXmlService())->expect(self::DAV_MULTISTATUS, $body);
+		} catch (ParseException $e) {
+			// Some servers (e.g. Fastmail/Cyrus IMAP) return XML containing namespace
+			// prefixes (e.g. CY:write-properties-resource) that are never declared with
+			// an xmlns attribute. Inject placeholder declarations so Sabre can parse the
+			// standard DAV properties we actually need, then retry.
+			$body = $this->declareUndeclaredNamespacePrefixes($body);
+			$multistatus = (new SabreXmlService())->expect(self::DAV_MULTISTATUS, $body);
+		}
 
 		$result = [];
 		foreach ($multistatus->getResponses() as $davResponse) {
@@ -576,6 +584,27 @@ class RemoteClient {
 		}
 
 		return $result;
+	}
+
+	private function declareUndeclaredNamespacePrefixes(string $xml): string {
+		preg_match_all('/<(?![\?!\/])([a-zA-Z][a-zA-Z0-9_-]*):/', $xml, $usedMatches);
+		$usedPrefixes = array_unique(array_filter($usedMatches[1]));
+
+		preg_match_all('/\bxmlns:([a-zA-Z][a-zA-Z0-9_-]*)\s*=/', $xml, $declaredMatches);
+		$declaredPrefixes = array_flip($declaredMatches[1]);
+
+		$extra = '';
+		foreach ($usedPrefixes as $prefix) {
+			if (!isset($declaredPrefixes[$prefix])) {
+				$extra .= sprintf(' xmlns:%s="urn:unknown-ns:%s"', $prefix, $prefix);
+			}
+		}
+
+		if ($extra === '') {
+			return $xml;
+		}
+
+		return preg_replace('/(<[a-zA-Z:][^>]*?)(\s*\/?>)/', '$1' . $extra . '$2', $xml, 1);
 	}
 
 	/**
