@@ -1,6 +1,7 @@
 OC.L10N.register(
     "integration_davc",
     {
+    "Connected accounts" : "Contas conectadas",
     "Edit" : "Editar",
     "Delete" : "Eliminar",
     "Cancel" : "Cancelar",
