@@ -81,6 +81,7 @@ OC.L10N.register(
     "Forbid insecure (HTTP) connections" : "Toirmisc naisc neamhshábháilte (HTTP)",
     "never" : "riamh",
     "New connection" : "Nasc nua",
+    "Successfully connected to account" : "Ceanglaíodh leis an gcuntas go rathúil",
     "Failed to authenticate with server" : "Theip ar fhíordheimhniú leis an bhfreastalaí",
     "Disconnected from account" : "Dícheangailte ón gcuntas",
     "Failed to disconnect from account" : "Theip ar dhícheangal ón gcuntas",
