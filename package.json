@@ -1,6 +1,6 @@
 {
   "name": "integration_davc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Nextcloud DAV Connector",
   "license": "AGPL-3.0-or-later",
   "author": "Sebastian Krupinski <krupinski01@gmail.com>",
