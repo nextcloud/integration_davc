@@ -2,6 +2,8 @@ OC.L10N.register(
     "integration_davc",
     {
     "Connected accounts" : "Forbundne konti",
+    "Edit template" : "Redigér skabelon",
+    "Add template" : "Tilføj skabelon",
     "Edit" : "Redigér",
     "Delete" : "Slet",
     "Cancel" : "Annullér",
@@ -10,6 +12,7 @@ OC.L10N.register(
     "Calendars" : "Kalendere",
     "Events" : "Begivenheder",
     "Disconnect" : "Frakobl",
+    "Account ID" : "Konto- id",
     "Connect" : "Forbind",
     "Every hour" : "Hver time",
     "never" : "aldrig",
