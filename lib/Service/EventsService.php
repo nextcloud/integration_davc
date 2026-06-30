@@ -30,7 +30,7 @@ class EventsService {
 	private RemoteEventsService $remoteEventsService;
 	private LocalEventsService $localEventsService;
 	private RemoteClient $remoteStore;
-	private readonly EventStore $localStore;
+	private EventStore $localStore;
 
 	public function __construct(
 		private readonly LoggerInterface $logger,
