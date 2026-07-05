@@ -1,6 +1,7 @@
 OC.L10N.register(
     "integration_davc",
     {
+    "DAV Connector" : "Conector DAV",
     "Connected accounts" : "Contas conectadas",
     "Connect Nextcloud to a DAV service" : "Conecte o Nextcloud a um serviço DAV",
     "DAV Connector allows you connect any compatible DAV service to Nextcloud" : "O Conector DAV permite conectar qualquer serviço DAV compatível ao Nextcloud",
@@ -83,9 +84,12 @@ OC.L10N.register(
     "Synchronized" : "Sincronizadas ",
     "Synchronization failed" : "A sincronização falhou",
     "Failed to load service list" : "Falha ao carregar a lista de serviços",
+    "_Found {count} remote events collection_::_Found {count} remote events collections_" : ["Encontrei {count} coleção de eventos remota","Encontrei {count} de coleções de eventos remotas","Encontrei {count} coleções de eventos remotas"],
     "Failed to load remote collections" : "Falha ao carregar coleções remotas",
+    "_Found {count} local event collection_::_Found {count} local event collections_" : ["Encontrei {count} coleção de eventos locais","Encontrei {count} de coleções de eventos locais","Encontrei {count} coleções de eventos locais"],
     "Saved correlations" : "Correlações salvas",
     "Failed to save correlations" : "Falha ao salvar as correlações",
-    "Services" : "Serviços"
+    "Services" : "Serviços",
+    "Connected as {0} to {1}" : "Conectado como {0} a {1}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
