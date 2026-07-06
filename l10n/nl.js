@@ -6,6 +6,7 @@ OC.L10N.register(
     "Delete" : "Verwijder",
     "Cancel" : "Annuleer",
     "Save" : "Opslaan",
+    "Connection" : "Verbinding",
     "Contacts" : "Contacten",
     "Calendars" : "Agenda's",
     "Events" : "Evenementen",
@@ -14,6 +15,7 @@ OC.L10N.register(
     "Connect" : "Verbinden",
     "Every hour" : "Elk uur",
     "never" : "nooit",
+    "New connection" : "New connection",
     "Synchronized" : "Gesynchroniseerd",
     "Synchronization failed" : "Synchronisatie mislukt"
 },
