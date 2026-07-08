@@ -6,6 +6,7 @@ OC.L10N.register(
     "Delete" : "Ta bort",
     "Cancel" : "Avbryt",
     "Save" : "Spara",
+    "Connection" : "Anslutning",
     "Contacts" : "Kontakter",
     "Calendars" : "Kalendrar",
     "Events" : "Händelser",

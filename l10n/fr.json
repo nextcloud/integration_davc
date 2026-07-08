@@ -4,6 +4,7 @@
     "Delete" : "Supprimer",
     "Cancel" : "Annuler",
     "Save" : "Enregistrer",
+    "Connection" : "Connexion",
     "Contacts" : "Contacts",
     "Calendars" : "Agendas",
     "Events" : "Évènements",
@@ -12,6 +13,7 @@
     "Connect" : "Se connecter",
     "Every hour" : "Toutes les heures",
     "never" : "jamais",
+    "New connection" : "New connection",
     "Synchronized" : "Synchronisation",
     "Synchronization failed" : "Échec de synchronisation",
     "Saved correlations" : "Corrélations sauvegardées"

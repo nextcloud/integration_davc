@@ -6,6 +6,7 @@ OC.L10N.register(
     "Delete" : "Supprimer",
     "Cancel" : "Annuler",
     "Save" : "Enregistrer",
+    "Connection" : "Connexion",
     "Contacts" : "Contacts",
     "Calendars" : "Agendas",
     "Events" : "Évènements",
@@ -14,6 +15,7 @@ OC.L10N.register(
     "Connect" : "Se connecter",
     "Every hour" : "Toutes les heures",
     "never" : "jamais",
+    "New connection" : "New connection",
     "Synchronized" : "Synchronisation",
     "Synchronization failed" : "Échec de synchronisation",
     "Saved correlations" : "Corrélations sauvegardées"
