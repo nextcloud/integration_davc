@@ -1,5 +1,7 @@
 { "translations": {
     "Connected accounts" : "Comptes connectés",
+    "Edit template" : "Éditer le modèle",
+    "Add template" : "Ajouter des modèles",
     "Edit" : "Modifier",
     "Delete" : "Supprimer",
     "Cancel" : "Annuler",
@@ -9,6 +11,7 @@
     "Calendars" : "Agendas",
     "Events" : "Évènements",
     "Disconnect" : "Se déconnecter",
+    "Account ID" : "ID du compte",
     "Basic" : "Basique",
     "Connect" : "Se connecter",
     "Every hour" : "Toutes les heures",

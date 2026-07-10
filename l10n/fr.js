@@ -2,6 +2,8 @@ OC.L10N.register(
     "integration_davc",
     {
     "Connected accounts" : "Comptes connectés",
+    "Edit template" : "Éditer le modèle",
+    "Add template" : "Ajouter des modèles",
     "Edit" : "Modifier",
     "Delete" : "Supprimer",
     "Cancel" : "Annuler",
@@ -11,6 +13,7 @@ OC.L10N.register(
     "Calendars" : "Agendas",
     "Events" : "Évènements",
     "Disconnect" : "Se déconnecter",
+    "Account ID" : "ID du compte",
     "Basic" : "Basique",
     "Connect" : "Se connecter",
     "Every hour" : "Toutes les heures",
