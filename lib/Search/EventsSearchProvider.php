@@ -65,8 +65,8 @@ class EventsSearchProvider implements IProvider {
 			->innerJoin('e', 'davc_collections', 'c', $qb->expr()->eq('e.cid', 'c.id'))
 			->where($qb->expr()->eq('e.uid', $qb->createNamedParameter($user->getUID())))
 			->andWhere($qb->expr()->orX(
-				$qb->expr()->like('e.label', $qb->createNamedParameter($likeTerm)),
-				$qb->expr()->like('e.description', $qb->createNamedParameter($likeTerm)),
+				$qb->expr()->iLike('e.label', $qb->createNamedParameter($likeTerm)),
+				$qb->expr()->iLike('e.description', $qb->createNamedParameter($likeTerm)),
 			))
 			->orderBy('e.startson', 'ASC')
 			->setMaxResults($limit)
