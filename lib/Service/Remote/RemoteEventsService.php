@@ -341,6 +341,7 @@ class RemoteEventsService {
 		$to->description = $so[RemoteClient::CALDAV_CALENDAR_DESCRIPTION] ?? null;
 		$to->priority = isset($so[RemoteClient::APPLE_ICAL_CALENDAR_ORDER]) ? (int)$so[RemoteClient::APPLE_ICAL_CALENDAR_ORDER] : null;
 		$to->color = $so[RemoteClient::APPLE_ICAL_CALENDAR_COLOR] ?? null;
+		$to->components = RemoteConvert::extractSupportedComponents($so[RemoteClient::CALDAV_SUPPORTED_CALENDAR_COMPONENT_SET] ?? null);
 
 		if (isset($so[RemoteClient::DAV_OWNER])) {
 			$owner = RemoteConvert::extractPrincipal($so[RemoteClient::DAV_OWNER]);

@@ -94,6 +94,11 @@ class RemoteEventsServiceTest extends TestCase {
 		$this->assertIsString($fetchedCollection->remoteId);
 		$this->assertNotSame('', $fetchedCollection->remoteId);
 		$this->assertTrue($fetchedCollection->label === null || is_string($fetchedCollection->label));
+
+		foreach ($fetchedCollection->components as $component) {
+			$this->assertIsString($component);
+			$this->assertNotSame('', $component);
+		}
 	}
 
 	public function testEntityList(): void {

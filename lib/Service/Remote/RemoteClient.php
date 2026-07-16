@@ -41,6 +41,7 @@ class RemoteClient {
 	public const CALDAV_CALENDAR_DATA = '{urn:ietf:params:xml:ns:caldav}calendar-data';
 	public const CALDAV_CALENDAR_MULTIGET = '{urn:ietf:params:xml:ns:caldav}calendar-multiget';
 	public const CALDAV_SUPPORTED_CALENDAR_COMPONENT_SET = '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set';
+	public const CALDAV_COMPONENT = '{urn:ietf:params:xml:ns:caldav}comp';
 	public const CARDDAV_ADDRESSBOOK_TYPE = '{urn:ietf:params:xml:ns:carddav}addressbook';
 	public const CARDDAV_ADDRESSBOOK_HOME_SET = '{urn:ietf:params:xml:ns:carddav}addressbook-home-set';
 	public const CARDDAV_ADDRESSBOOK_DESCRIPTION = '{urn:ietf:params:xml:ns:carddav}addressbook-description';
