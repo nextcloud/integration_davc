@@ -14,8 +14,11 @@ use OCA\DAVC\Models\Contacts\Entity;
 use OCA\DAVC\Providers\DAV\Contacts\Hybrid\ContactCollection;
 use OCA\DAVC\Providers\DAV\Contacts\Hybrid\ContactEntity;
 use OCA\DAVC\Service\Local\LocalContactsService;
+use OCA\DAVC\Service\Remote\RemoteClient;
+use OCA\DAVC\Service\Remote\RemoteContactsService;
 use OCA\DAVC\Service\Remote\RemoteFactory;
 use OCA\DAVC\Store\Local\Filters\ContactFilter;
+use OCA\DAVC\Store\Local\ServiceEntity;
 use OCA\DAVC\Store\Local\ServicesStore;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -142,5 +145,117 @@ class ContactCollectionTest extends TestCase {
 			->willReturn([]);
 
 		$this->assertFalse($this->sut->childExists('unknown'));
+	}
+
+	/**
+	 * wire the lazy loaded remote service to a mock
+	 */
+	private function mockRemoteService(): RemoteContactsService&MockObject {
+		$service = $this->createMock(ServiceEntity::class);
+		$client = $this->createMock(RemoteClient::class);
+		$remoteService = $this->createMock(RemoteContactsService::class);
+
+		$this->servicesStore->method('fetch')->with(1)->willReturn($service);
+		$this->remoteFactory->method('freshClient')->with($service)->willReturn($client);
+		$this->remoteFactory->method('contactsService')->with($client)->willReturn($remoteService);
+
+		return $remoteService;
+	}
+
+	/**
+	 * construct a rewound memory stream with the given contents
+	 *
+	 * @return resource
+	 */
+	private function memoryStream(string $contents) {
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $contents);
+		rewind($stream);
+		return $stream;
+	}
+
+	public function testCreateFileWithString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$created = new Entity();
+		$created->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityCreate')
+			->willReturnCallback(function (Entity $entity) use ($created): Entity {
+				$this->assertSame('BEGIN:VCARD', $entity->data);
+				$this->assertSame('fresh-id', $entity->remoteEntityId);
+				return $created;
+			});
+		$this->localService->expects($this->once())
+			->method('entityCreate')
+			->with('user1', 1, 42, $created)
+			->willReturn($created);
+
+		$this->assertSame('signature', $this->sut->createFile('fresh-id', 'BEGIN:VCARD'));
+	}
+
+	public function testCreateFileConvertsStreamToString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$created = new Entity();
+		$created->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityCreate')
+			->willReturnCallback(function (Entity $entity) use ($created): Entity {
+				$this->assertSame('BEGIN:VCARD', $entity->data);
+				return $created;
+			});
+		$this->localService->expects($this->once())
+			->method('entityCreate')
+			->with('user1', 1, 42, $created)
+			->willReturn($created);
+
+		$this->assertSame('signature', $this->sut->createFile('fresh-id', $this->memoryStream('BEGIN:VCARD')));
+	}
+
+	public function testModifyFileWithString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$entity = new Entity();
+		$entity->localCollectionId = 42;
+		$entity->localEntityId = 7;
+		$entity->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityModify')
+			->willReturnCallback(function (Entity $eo) use ($entity): Entity {
+				$this->assertSame('BEGIN:VCARD', $eo->data);
+				return $entity;
+			});
+		$this->localService->expects($this->once())
+			->method('entityModify')
+			->with('user1', 1, 42, 7, $entity)
+			->willReturn($entity);
+
+		$this->assertSame('signature', $this->sut->modifyFile($entity, 'BEGIN:VCARD'));
+	}
+
+	public function testModifyFileConvertsStreamToString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$entity = new Entity();
+		$entity->localCollectionId = 42;
+		$entity->localEntityId = 7;
+		$entity->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityModify')
+			->willReturnCallback(function (Entity $eo) use ($entity): Entity {
+				$this->assertSame('BEGIN:VCARD', $eo->data);
+				return $entity;
+			});
+		$this->localService->expects($this->once())
+			->method('entityModify')
+			->with('user1', 1, 42, 7, $entity)
+			->willReturn($entity);
+
+		$this->assertSame('signature', $this->sut->modifyFile($entity, $this->memoryStream('BEGIN:VCARD')));
 	}
 }

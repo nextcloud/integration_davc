@@ -394,7 +394,7 @@ class EventCollection extends ExternalCalendar implements ICalendar, IProperties
 	 * create a entity in this collection
 	 *
 	 * @param string $id fresh entity id
-	 * @param string $data fresh entity contents
+	 * @param string|resource|null $data fresh entity contents
 	 *
 	 * @return string entity signature
 	 */
@@ -404,7 +404,7 @@ class EventCollection extends ExternalCalendar implements ICalendar, IProperties
 		$eo->localCollectionId = $this->collection->localId;
 		$eo->remoteCollectionId = $this->collection->remoteId;
 		$eo->remoteEntityId = $id;
-		$eo->data = $data;
+		$eo->data = $this->normalizeData($data);
 
 		$remoteService = $this->remoteService();
 
@@ -424,13 +424,13 @@ class EventCollection extends ExternalCalendar implements ICalendar, IProperties
 	 * modify a entity in this collection
 	 *
 	 * @param Entity $entity existing entity object
-	 * @param string $data modified entity contents
+	 * @param string|resource $data modified entity contents
 	 *
 	 * @return string entity signature
 	 */
-	public function modifyFile(Entity $entity, string $data): string {
+	public function modifyFile(Entity $entity, $data): string {
 
-		$entity->data = $data;
+		$entity->data = $this->normalizeData($data);
 
 		$remoteService = $this->remoteService();
 
@@ -458,6 +458,18 @@ class EventCollection extends ExternalCalendar implements ICalendar, IProperties
 		$remoteService = $this->remoteService();
 		$remoteService->entityDelete($entity->remoteCollectionId, $entity->remoteEntityId);
 		$this->localService->entityDelete($entity->localEntityId);
+	}
+
+	/**
+	 * convert entity contents to a string
+	 *
+	 * @param string|resource|null $data
+	 */
+	private function normalizeData($data): ?string {
+		if (is_resource($data)) {
+			$data = stream_get_contents($data);
+		}
+		return is_string($data) ? $data : null;
 	}
 
 }
