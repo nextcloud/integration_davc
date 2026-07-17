@@ -14,8 +14,11 @@ use OCA\DAVC\Models\Calendars\Entity;
 use OCA\DAVC\Providers\DAV\Calendar\Hybrid\EventCollection;
 use OCA\DAVC\Providers\DAV\Calendar\Hybrid\EventEntity;
 use OCA\DAVC\Service\Local\LocalEventsService;
+use OCA\DAVC\Service\Remote\RemoteClient;
+use OCA\DAVC\Service\Remote\RemoteEventsService;
 use OCA\DAVC\Service\Remote\RemoteFactory;
 use OCA\DAVC\Store\Local\Filters\EventFilter;
+use OCA\DAVC\Store\Local\ServiceEntity;
 use OCA\DAVC\Store\Local\ServicesStore;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -146,5 +149,117 @@ class EventCollectionTest extends TestCase {
 			->willReturn([]);
 
 		$this->assertFalse($this->sut->childExists('unknown.ics'));
+	}
+
+	/**
+	 * wire the lazy loaded remote service to a mock
+	 */
+	private function mockRemoteService(): RemoteEventsService&MockObject {
+		$service = $this->createMock(ServiceEntity::class);
+		$client = $this->createMock(RemoteClient::class);
+		$remoteService = $this->createMock(RemoteEventsService::class);
+
+		$this->servicesStore->method('fetch')->with(1)->willReturn($service);
+		$this->remoteFactory->method('freshClient')->with($service)->willReturn($client);
+		$this->remoteFactory->method('eventsService')->with($client)->willReturn($remoteService);
+
+		return $remoteService;
+	}
+
+	/**
+	 * construct a rewound memory stream with the given contents
+	 *
+	 * @return resource
+	 */
+	private function memoryStream(string $contents) {
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $contents);
+		rewind($stream);
+		return $stream;
+	}
+
+	public function testCreateFileWithString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$created = new Entity();
+		$created->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityCreate')
+			->willReturnCallback(function (Entity $entity) use ($created): Entity {
+				$this->assertSame('BEGIN:VCALENDAR', $entity->data);
+				$this->assertSame('fresh-id', $entity->remoteEntityId);
+				return $created;
+			});
+		$this->localService->expects($this->once())
+			->method('entityCreate')
+			->with('user1', 1, 42, $created)
+			->willReturn($created);
+
+		$this->assertSame('signature', $this->sut->createFile('fresh-id', 'BEGIN:VCALENDAR'));
+	}
+
+	public function testCreateFileConvertsStreamToString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$created = new Entity();
+		$created->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityCreate')
+			->willReturnCallback(function (Entity $entity) use ($created): Entity {
+				$this->assertSame('BEGIN:VCALENDAR', $entity->data);
+				return $created;
+			});
+		$this->localService->expects($this->once())
+			->method('entityCreate')
+			->with('user1', 1, 42, $created)
+			->willReturn($created);
+
+		$this->assertSame('signature', $this->sut->createFile('fresh-id', $this->memoryStream('BEGIN:VCALENDAR')));
+	}
+
+	public function testModifyFileWithString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$entity = new Entity();
+		$entity->localCollectionId = 42;
+		$entity->localEntityId = 7;
+		$entity->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityModify')
+			->willReturnCallback(function (Entity $eo) use ($entity): Entity {
+				$this->assertSame('BEGIN:VCALENDAR', $eo->data);
+				return $entity;
+			});
+		$this->localService->expects($this->once())
+			->method('entityModify')
+			->with('user1', 1, 42, 7, $entity)
+			->willReturn($entity);
+
+		$this->assertSame('signature', $this->sut->modifyFile($entity, 'BEGIN:VCALENDAR'));
+	}
+
+	public function testModifyFileConvertsStreamToString(): void {
+		$remoteService = $this->mockRemoteService();
+
+		$entity = new Entity();
+		$entity->localCollectionId = 42;
+		$entity->localEntityId = 7;
+		$entity->localSignature = 'signature';
+
+		$remoteService->expects($this->once())
+			->method('entityModify')
+			->willReturnCallback(function (Entity $eo) use ($entity): Entity {
+				$this->assertSame('BEGIN:VCALENDAR', $eo->data);
+				return $entity;
+			});
+		$this->localService->expects($this->once())
+			->method('entityModify')
+			->with('user1', 1, 42, 7, $entity)
+			->willReturn($entity);
+
+		$this->assertSame('signature', $this->sut->modifyFile($entity, $this->memoryStream('BEGIN:VCALENDAR')));
 	}
 }
