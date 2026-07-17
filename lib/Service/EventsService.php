@@ -167,8 +167,9 @@ class EventsService {
 			}
 		}
 
-		// update and deposit remote harmonization signature
+		// update and deposit remote harmonization signature and important changed properties
 		$collection->setPermissions($remoteCollection->permissions);
+		$collection->setComponents($remoteCollection->components);
 		if (!empty($remoteEntityDelta->signature)) {
 			$collection->setHesn($remoteEntityDelta->signature);
 		} else {

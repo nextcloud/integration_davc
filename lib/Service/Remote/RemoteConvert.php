@@ -86,6 +86,29 @@ class RemoteConvert {
 		return null;
 	}
 
+	/**
+	 * @return list<string>|null component names (e.g. VEVENT, VTODO) or null when the property is absent
+	 */
+	public static function extractSupportedComponents(mixed $value): ?array {
+		if (!is_array($value)) {
+			return null;
+		}
+
+		$components = [];
+		foreach ($value as $element) {
+			if (!is_array($element) || ($element['name'] ?? null) !== RemoteClient::CALDAV_COMPONENT) {
+				continue;
+			}
+
+			$name = $element['attributes']['name'] ?? null;
+			if (is_string($name) && $name !== '') {
+				$components[] = $name;
+			}
+		}
+
+		return array_values(array_unique($components));
+	}
+
 	public static function extractPrivilegeNames(mixed $grant): array {
 		if (!is_array($grant)) {
 			return [];

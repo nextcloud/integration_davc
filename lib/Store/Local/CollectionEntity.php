@@ -27,6 +27,8 @@ use OCP\DB\Types;
  * @method setUuid(string $uuid): void
  * @method getPermissions(): ?array
  * @method setPermissions(?array $permissions): void
+ * @method getComponents(): ?array
+ * @method setComponents(?array $components): void
  * @method getLabel(): ?string
  * @method setLabel(string $label): void
  * @method getColor(): ?string
@@ -51,6 +53,7 @@ class CollectionEntity extends Entity implements JsonSerializable {
 	protected ?string $ccid = null;
 	protected ?string $uuid = null;
 	protected ?array $permissions = null;
+	protected ?array $components = null;
 	protected ?string $label = null;
 	protected ?string $color = null;
 	protected ?int $visible = 1;
@@ -62,6 +65,7 @@ class CollectionEntity extends Entity implements JsonSerializable {
 
 	public function __construct() {
 		$this->addType('permissions', Types::JSON);
+		$this->addType('components', Types::JSON);
 	}
 
 	#[\Override]
@@ -74,6 +78,7 @@ class CollectionEntity extends Entity implements JsonSerializable {
 			'ccid' => $this->ccid,
 			'uuid' => $this->uuid,
 			'permissions' => $this->permissions,
+			'components' => $this->components,
 			'label' => $this->label,
 			'color' => $this->color,
 			'visible' => $this->visible,
