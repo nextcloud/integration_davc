@@ -19,6 +19,7 @@ use OCA\DAVC\Store\Local\EventEntity;
 use OCA\DAVC\Store\Local\EventStore;
 use OCA\DAVC\Store\Local\Filters\CollectionFilter;
 use OCA\DAVC\Store\Local\Filters\EventFilter;
+use OCA\DAVC\Utile\Event;
 use Sabre\VObject\Reader;
 
 class LocalEventsService {
@@ -340,7 +341,7 @@ class LocalEventsService {
 		// construct correlation signature
 		$to->setCesn($signature . $so->remoteSignature);
 		// extract additional values from object
-		/** @var \Sabre\VObject\VCalendar $vo */
+		/** @var \Sabre\VObject\Component\VCalendar $vo */
 		$vo = Reader::read($so->data);
 		try {
 			$vc = $vo->getBaseComponent();
@@ -358,15 +359,11 @@ class LocalEventsService {
 			}
 
 			$to->setUuid($vc->UID->getValue());
-			$to->setStartson($vc->DTSTART->getDateTime()->getTimestamp());
+			// Extract the start and end of the series
+			[$startson, $endson] = Event::calculate($vo);
+			$to->setStartson($startson);
+			$to->setEndson($endson);
 
-			if ($vc->DTEND) {
-				$to->setEndson($vc->DTEND->getDateTime()->getTimestamp());
-			} elseif ($vc->DURATION) {
-				$to->setEndson($vc->DTSTART->getDateTime()->getTimestamp() + $vc->DURATION->getDateInterval()->s);
-			} else {
-				$to->setEndson($vc->DTSTART->getDateTime()->getTimestamp());
-			}
 			if ($vc->SUMMARY) {
 				$to->setLabel($vc->SUMMARY->getValue());
 			}
