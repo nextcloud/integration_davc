@@ -443,7 +443,6 @@ class CoreService {
 							$collection->setLabel('DavC: ' . ($remoteCollection?->label ?? $entry['label'] ?? 'Unknown'));
 							$collection->setColor($remoteCollection?->color ?? $entry['color'] ?? '#0055aa');
 							$collection->setVisible(true);
-							$collection->setHesn($remoteCollection?->remoteSignature);
 							$id = $localStore->collectionCreate($collection);
 						}
 						break;
@@ -497,7 +496,6 @@ class CoreService {
 							$collection->setColor($remoteCollection?->color ?? $entry['color'] ?? '#0055aa');
 							$collection->setComponents($remoteCollection?->components);
 							$collection->setVisible(true);
-							$collection->setHesn($remoteCollection?->remoteSignature);
 							$id = $localStore->collectionCreate($collection);
 						}
 						break;
