@@ -241,9 +241,14 @@ async function localCollectionsDeposit(): Promise<void> {
 		EventCorrelations: eventsLocalCollections.value,
 	}
 	try {
-		await axios.post(uri, data)
+		const response = await axios.post(uri, data)
+		if (response.data.ContactCollections) {
+			contactsLocalCollections.value = response.data.ContactCollections
+		}
+		if (response.data.EventCollections) {
+			eventsLocalCollections.value = response.data.EventCollections
+		}
 		showSuccess(t('integration_davc', 'Saved correlations'))
-		localCollectionsFetch()
 	} catch (error: unknown) {
 		showError(t('integration_davc', 'Failed to save correlations')
 			+ ': ' + getErrorResponseText(error))
