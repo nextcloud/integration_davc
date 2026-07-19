@@ -14,7 +14,7 @@ OC.L10N.register(
     "Basic" : "Grundläggande",
     "Connect" : "Anslut",
     "never" : "aldrig",
-    "Synchronized" : "Synkroniserad",
+    "Synchronized" : "Synkroniserat",
     "Synchronization failed" : "Synkroniseringen misslyckades"
 },
 "nplurals=2; plural=(n != 1);");
