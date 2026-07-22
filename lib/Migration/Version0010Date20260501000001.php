@@ -90,7 +90,8 @@ class Version0010Date20260501000001 extends SimpleMigrationStep {
 		]);
 		// service location security
 		$table->addColumn('location_security', Types::BOOLEAN, [
-			'notnull' => true
+			'notnull' => false,
+			'default' => true
 		]);
 		// service authentication
 		$table->addColumn('auth', Types::STRING, [

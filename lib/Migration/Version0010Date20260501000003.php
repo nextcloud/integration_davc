@@ -82,7 +82,8 @@ class Version0010Date20260501000003 extends SimpleMigrationStep {
 		]);
 		// visible
 		$table->addColumn('visible', Types::BOOLEAN, [
-			'notnull' => true
+			'notnull' => false,
+			'default' => true
 		]);
 		// hisn
 		$table->addColumn('hisn', Types::STRING, [
