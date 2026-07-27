@@ -293,7 +293,7 @@ jobs:
 
     services:
       mail-stalwart-service:
-        image: stalwartlabs/stalwart:v0.15.5
+        image: stalwartlabs/stalwart:v0.16.15
         env:
           STALWART_ADMIN_PASSWORD: ${{ env.STALWART_ADMIN_PWD }}
         ports:
