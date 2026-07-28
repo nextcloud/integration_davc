@@ -31,11 +31,17 @@
 				<referencedClass name="Symfony\Component\Console\Command\Command" />
 				<referencedClass name="OCA\DAV\CalDAV\Integration\ExternalCalendar" />
 				<referencedClass name="OCA\DAV\CalDAV\Integration\ICalendarProvider" />
+				<referencedClass name="OCA\DAV\CalDAV\CalDavBackend" />
 				<referencedClass name="OCA\DAV\CardDAV\Integration\IAddressBookProvider" />
+				<referencedClass name="OCA\DAV\CardDAV\CardDavBackend" />
+				<referencedClass name="OCA\DAV\DAV\Sharing\Plugin" />
 				<referencedClass name="Sabre\CalDAV\ICalendar" />
 				<referencedClass name="Sabre\CalDAV\ICalendarObject" />
 				<referencedClass name="Sabre\CardDAV\IAddressBook" />
 				<referencedClass name="Sabre\CardDAV\ICard" />
+				<referencedClass name="Sabre\DAV\Exception\BadRequest" />
+				<referencedClass name="Sabre\VObject\Component\VCalendar" />
+				<referencedClass name="Sabre\VObject\Component\VCard" />
 				<referencedClass name="Sabre\VObject\Reader" />
 				<referencedClass name="Sabre\DAV\Xml\Service" />
 				<referencedClass name="Sabre\Xml\ParseException" />

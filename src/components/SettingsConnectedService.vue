@@ -17,7 +17,9 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import ContactIcon from 'vue-material-design-icons/ContactsOutline.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
+import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
 import DavIcon from '../icons/DavIcon.vue'
+import SettingsMigrationModal from './SettingsMigrationModal.vue'
 
 interface SystemConfiguration {
 	system_contacts: boolean
@@ -44,6 +46,8 @@ const emit = defineEmits<{
 	(event: 'harmonize'): void
 	(event: 'disconnect'): void
 }>()
+
+const showMigrationModal = ref<boolean>(false)
 
 function randomColor(): string {
 	return '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')
@@ -243,6 +247,12 @@ function establishedEventCorrelationHarmonized(ccid: string | null): number {
 				</template>
 				{{ t('integration_davc', 'Harmonize') }}
 			</NcButton>
+			<NcButton :disabled="busy" @click="showMigrationModal = true">
+				<template #icon>
+					<SwapHorizontalIcon />
+				</template>
+				{{ t('integration_davc', 'Migrate') }}
+			</NcButton>
 			<NcButton :disabled="busy" @click="emit('disconnect')">
 				<template #icon>
 					<CloseIcon />
@@ -250,6 +260,15 @@ function establishedEventCorrelationHarmonized(ccid: string | null): number {
 				{{ t('integration_davc', 'Disconnect') }}
 			</NcButton>
 		</div>
+
+		<SettingsMigrationModal
+			v-if="showMigrationModal"
+			:service="service"
+			:contactsRemoteSupported="contactsRemoteSupported"
+			:contactsRemoteCollections="contactsRemoteCollections"
+			:eventsRemoteSupported="eventsRemoteSupported"
+			:eventsRemoteCollections="eventsRemoteCollections"
+			@close="showMigrationModal = false" />
 	</div>
 </template>
 
