@@ -5,6 +5,9 @@ OC.L10N.register(
     "Delete" : "حذف کریں",
     "Cancel" : "Cancel",
     "Save" : "حفظ",
-    "Connect" : "منسلک"
+    "Connect" : "منسلک",
+    "Calendar" : "کیلنڈر",
+    "Dismiss" : "Dismiss",
+    "Close" : "بند "
 },
 "nplurals=2; plural=(n != 1);");

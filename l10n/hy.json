@@ -4,6 +4,10 @@
     "Cancel" : "Cancel",
     "Save" : "Պահպանել",
     "Connect" : "միացնել",
+    "Calendar" : "Օրացույց",
+    "Refresh" : "Թարմացնել",
+    "Dismiss" : "Dismiss",
+    "Close" : "Փակել",
     "never" : "երբեք"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

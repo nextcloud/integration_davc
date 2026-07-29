@@ -5,6 +5,10 @@
     "Save" : "Konservi",
     "Disconnect" : "Malkonekti",
     "Connect" : "Konekti",
+    "Calendar" : "Kalendaro",
+    "Start" : "Komenco",
+    "Refresh" : "Aktualigi",
+    "Dismiss" : "Preterpasi",
     "never" : "neniam"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

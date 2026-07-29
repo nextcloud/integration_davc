@@ -11,6 +11,12 @@ OC.L10N.register(
     "Events" : "Hendelser",
     "Disconnect" : "Koble fra",
     "Connect" : "Koble til",
+    "Calendar" : "Kalender",
+    "Direction" : "Retning",
+    "Start" : "Start",
+    "Refresh" : "Oppdater",
+    "Dismiss" : "Avvis",
+    "Close" : "Lukk",
     "never" : "aldri",
     "Synchronized" : "Synkronisert",
     "Synchronization failed" : "Synkronisering mislyktes"

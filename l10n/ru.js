@@ -12,6 +12,12 @@ OC.L10N.register(
     "Disconnect" : "Отключить",
     "Basic" : "Основной",
     "Connect" : "Подключиться",
+    "Calendar" : "Календарь",
+    "Direction" : "Направление",
+    "Start" : "Начало",
+    "Refresh" : "Обновить",
+    "Dismiss" : "Скрыть",
+    "Close" : "Закрыть",
     "never" : "никогда",
     "Synchronized" : "Синхронизировано",
     "Synchronization failed" : "Сбой синхронизации"

@@ -11,6 +11,12 @@ OC.L10N.register(
     "Events" : "Acara",
     "Disconnect" : "Terputus",
     "Connect" : "Hubungkan",
+    "Calendar" : "Kalender",
+    "Direction" : "Arah",
+    "Start" : "Mulai",
+    "Refresh" : "Segarkan",
+    "Dismiss" : "Abaikan",
+    "Close" : "Tutup",
     "Every hour" : "Setiap jam",
     "never" : "tidak pernah",
     "Synchronization failed" : "Sinkronisasi gagal"

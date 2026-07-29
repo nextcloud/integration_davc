@@ -10,6 +10,10 @@ OC.L10N.register(
     "Calendars" : "Calendare",
     "Disconnect" : "Deconectare",
     "Connect" : "Conectare",
+    "Calendar" : "Calendar",
+    "Refresh" : "Reîmprospătează",
+    "Dismiss" : "Elimină",
+    "Close" : "Închide",
     "never" : "niciodată",
     "Synchronization failed" : "Sincronizare eșuată "
 },

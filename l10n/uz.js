@@ -9,6 +9,11 @@ OC.L10N.register(
     "Contacts" : "Aloqalar",
     "Calendars" : "Taqvimlar",
     "Connect" : "Connect",
+    "Calendar" : "Taqvim",
+    "Direction" : "Yo'nalish",
+    "Refresh" : "Yangilash",
+    "Dismiss" : "Rad etish",
+    "Close" : "Yopish",
     "never" : "hech qachon",
     "Synchronization failed" : "Sinxronizatsiya amalga oshmadi"
 },

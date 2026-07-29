@@ -16,6 +16,12 @@ OC.L10N.register(
     "Account token" : "Paskyros žymuo",
     "Basic" : "Pagrindinis",
     "Connect" : "Prisijungti",
+    "Calendar" : "Kalendorius",
+    "Direction" : "Kryptis",
+    "Start" : "Pradėti",
+    "Refresh" : "Atnaujinti",
+    "Dismiss" : "Atmesti",
+    "Close" : "Užverti",
     "Every hour" : "Kas valandą",
     "never" : "niekada",
     "Synchronization failed" : "Sinchronizacija nepavyko"

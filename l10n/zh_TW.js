@@ -15,6 +15,12 @@ OC.L10N.register(
     "Account ID" : "帳號 ID",
     "Basic" : "基本",
     "Connect" : "連線",
+    "Calendar" : "行事曆",
+    "Direction" : "方向",
+    "Start" : "開始",
+    "Refresh" : "重新整理",
+    "Dismiss" : "忽略",
+    "Close" : "關閉",
     "Every hour" : "每小時",
     "never" : "永不",
     "Synchronization failed" : "同步失敗"

@@ -7,6 +7,10 @@
     "Contacts" : "Contactes",
     "Calendars" : "Calendièrs",
     "Connect" : "Connectar",
+    "Calendar" : "Calendièr",
+    "Refresh" : "Refrescar",
+    "Dismiss" : "Regetar",
+    "Close" : "Plegar",
     "never" : "pas jamai",
     "Synchronization failed" : "Sincronizacion fracassada"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

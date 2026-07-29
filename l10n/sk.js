@@ -12,6 +12,12 @@ OC.L10N.register(
     "Disconnect" : "Odpojiť",
     "Basic" : "Základné",
     "Connect" : "Pripojiť",
+    "Calendar" : "Kalendár",
+    "Direction" : "Smer",
+    "Start" : "Začiatok",
+    "Refresh" : "Obnoviť",
+    "Dismiss" : "Odmietnuť",
+    "Close" : "Zavrieť",
     "never" : "nikdy",
     "Synchronized" : "Synchronizované",
     "Synchronization failed" : "Synchronizácia zlyhala"

@@ -1,5 +1,7 @@
 { "translations": {
     "Connected accounts" : "Comptes connectats",
+    "Edit template" : "Edita la plantilla",
+    "Add template" : "Afegeix una plantilla",
     "Edit" : "Edició",
     "Delete" : "Suprimir",
     "Cancel" : "Cancel",
@@ -8,7 +10,9 @@
     "Calendars" : "Calendaris",
     "Events" : "Esdeveniments",
     "Disconnect" : "Desconnecta",
+    "Account ID" : "ID del compte",
     "Connect" : "Connecta",
+    "Start" : "Inici",
     "never" : "mai",
     "Synchronized" : "Sincronitzat",
     "Synchronization failed" : "S'ha produït un error en la sincronització"

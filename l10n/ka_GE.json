@@ -5,6 +5,10 @@
     "Save" : "შენახვა",
     "Disconnect" : "კავშირის გაწყვეტა",
     "Connect" : "დაკავშირება",
+    "Calendar" : "კალენდარი",
+    "Refresh" : "განახლება",
+    "Dismiss" : "დათხოვნა",
+    "Close" : "დახურვა",
     "never" : "არასდროს"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -9,6 +9,10 @@ OC.L10N.register(
     "Calendars" : "Calendàrios",
     "Events" : "Eventos",
     "Connect" : "Connete",
+    "Calendar" : "Calendàriu",
+    "Refresh" : "Agiorna",
+    "Dismiss" : "Iscarta",
+    "Close" : "Serra",
     "never" : "mai",
     "Synchronization failed" : "Sincronizatzione faddida"
 },

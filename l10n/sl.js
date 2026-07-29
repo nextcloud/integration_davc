@@ -11,6 +11,11 @@ OC.L10N.register(
     "Events" : "Dogodki",
     "Disconnect" : "Prekini povezavo",
     "Connect" : "Poveži",
+    "Calendar" : "Koledar",
+    "Start" : "Začetek",
+    "Refresh" : "Osveži",
+    "Dismiss" : "Prekliči",
+    "Close" : "Zapri",
     "never" : "nikoli",
     "Synchronized" : "Usklajeno",
     "Synchronization failed" : "Usklajevanje je spodletelo"

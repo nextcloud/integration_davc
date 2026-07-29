@@ -8,6 +8,10 @@ OC.L10N.register(
     "Contacts" : "รายชื่อผู้ติดต่อ",
     "Calendars" : "ปฏิทิน",
     "Connect" : "เชื่อมต่อ",
+    "Calendar" : "ปฏิทิน",
+    "Refresh" : "รีเฟรช",
+    "Dismiss" : "ยกเลิก",
+    "Close" : "ปิด",
     "never" : "ไม่เคย",
     "Synchronization failed" : "การซิงโครไนซ์ผิดพลาด"
 },

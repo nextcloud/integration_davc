@@ -11,6 +11,11 @@ OC.L10N.register(
     "Events" : "Gertaerak",
     "Disconnect" : "Deskonektatu",
     "Connect" : "Konektatu",
+    "Calendar" : "Egutegia",
+    "Start" : "Hasi",
+    "Refresh" : "Freskatu",
+    "Dismiss" : "Ezikusi",
+    "Close" : "Itxi",
     "never" : "inoiz ez",
     "Synchronized" : "Sinkronizatuta",
     "Synchronization failed" : "Sinkronizazioak huts egin du"

@@ -9,6 +9,10 @@ OC.L10N.register(
     "Calendars" : "Calendarios",
     "Disconnect" : "Desconectar",
     "Connect" : "Conectar",
+    "Calendar" : "Calendario",
+    "Refresh" : "Actualizar",
+    "Dismiss" : "Descartar",
+    "Close" : "Cerrar",
     "never" : "nunca",
     "Synchronized" : "Sincronizado"
 },

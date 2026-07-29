@@ -6,6 +6,10 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Save" : "Simpan",
     "Connect" : "Berhubung",
+    "Calendar" : "Kalendar",
+    "Refresh" : "Refresh",
+    "Dismiss" : "Dismiss",
+    "Close" : "Tutup",
     "never" : "jangan"
 },
 "nplurals=1; plural=0;");

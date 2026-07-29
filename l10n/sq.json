@@ -6,6 +6,11 @@
     "Contacts" : "Kontaktet",
     "Disconnect" : "Shkëputu",
     "Connect" : "Lidhu",
+    "Calendar" : "Kalendar",
+    "Start" : "Fillo",
+    "Refresh" : "Rifreskoje",
+    "Dismiss" : "Hiq",
+    "Close" : "Mbylleni",
     "never" : "kurrë"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

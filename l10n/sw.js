@@ -11,6 +11,12 @@ OC.L10N.register(
     "Events" : "Matukio",
     "Disconnect" : "Tenganisha",
     "Connect" : "Unganisha",
+    "Calendar" : "Calendar",
+    "Direction" : "Mwelekeo",
+    "Start" : "Anza",
+    "Refresh" : "Onyesha upya",
+    "Dismiss" : "Tawanya",
+    "Close" : "Funga",
     "Every hour" : "Kila saa",
     "never" : "kamwe",
     "Synchronization failed" : "Usawazishaji haukufaulu"

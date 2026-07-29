@@ -5,6 +5,8 @@ OC.L10N.register(
     "Delete" : "﻿ಅಳಿಸಿ",
     "Cancel" : "Cancel",
     "Save" : "﻿ಉಳಿಸಿ",
+    "Dismiss" : "Dismiss",
+    "Close" : "ಮುಚ್ಚು",
     "never" : "﻿ಎಂದಿಗೂ"
 },
 "nplurals=2; plural=(n > 1);");

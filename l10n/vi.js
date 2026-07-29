@@ -10,6 +10,11 @@ OC.L10N.register(
     "Calendars" : "Lịch",
     "Disconnect" : "Ngắt kết nối",
     "Connect" : "Kết nối",
+    "Calendar" : "Lịch",
+    "Start" : "Bắt đầu",
+    "Refresh" : "Tải mới",
+    "Dismiss" : "Bỏ qua",
+    "Close" : "Đóng",
     "never" : "không thay đổi",
     "Synchronization failed" : "Đồng bộ hoá thất bại"
 },

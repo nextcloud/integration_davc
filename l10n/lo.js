@@ -11,6 +11,12 @@ OC.L10N.register(
     "Events" : "Events",
     "Disconnect" : "Disconnect",
     "Connect" : "ເຊື່ອມຕໍ່",
+    "Calendar" : "ປະຕິທິນ",
+    "Direction" : "ທິດທາງ",
+    "Start" : "ເລີ່ມ",
+    "Refresh" : "ໂຫຼດໃໝ່",
+    "Dismiss" : "ຍົກເລີກ",
+    "Close" : "ປິດ",
     "Every hour" : "ທຸກໆຊົ່ວໂມງ",
     "never" : "ບໍ່ເຄີຍ",
     "Synchronization failed" : "ການຊິ້ງຂໍ້ມູນລົ້ມເຫຼວ"

@@ -8,6 +8,11 @@
     "Calendars" : "Kalendāri",
     "Disconnect" : "Atvienot",
     "Connect" : "Savienoties",
+    "Calendar" : "Kalendārs",
+    "Start" : "Sākums",
+    "Refresh" : "Atsvaidzināt",
+    "Dismiss" : "Atmest",
+    "Close" : "Aizvērt",
     "Every hour" : "Katru stundu",
     "never" : "nekad"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"

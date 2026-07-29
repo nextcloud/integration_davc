@@ -11,6 +11,12 @@ OC.L10N.register(
     "Events" : "ھادىسە",
     "Disconnect" : "ئۈزۈڭ",
     "Connect" : "ئۇلاڭ",
+    "Calendar" : "كالېندار",
+    "Direction" : "يۆنىلىش",
+    "Start" : "باشلاش",
+    "Refresh" : "يېڭىلاش",
+    "Dismiss" : "پەرۋا قىلما",
+    "Close" : "ياپ",
     "Every hour" : "ھەر سائەت",
     "never" : "ھەرگىز",
     "Synchronization failed" : "ماس قەدەملەش مەغلۇب بولدى"

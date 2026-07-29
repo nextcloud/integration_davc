@@ -5,6 +5,10 @@
     "Save" : "Späicheren",
     "Calendars" : "Kalenneren",
     "Connect" : "Verbannen",
+    "Calendar" : "Kalenner",
+    "Refresh" : "Opfrëschen",
+    "Dismiss" : "Ofbriechen",
+    "Close" : "Zoumaachen",
     "never" : "Ni"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

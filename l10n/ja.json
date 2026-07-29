@@ -9,6 +9,12 @@
     "Events" : "イベント",
     "Disconnect" : "切断",
     "Connect" : "接続",
+    "Calendar" : "カレンダー",
+    "Direction" : "方向",
+    "Start" : "開始する",
+    "Refresh" : "更新",
+    "Dismiss" : "無視する",
+    "Close" : "閉じる",
     "never" : "なし",
     "Synchronized" : "同期された",
     "Synchronization failed" : "同期に失敗"

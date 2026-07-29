@@ -10,6 +10,11 @@ OC.L10N.register(
     "Calendars" : "Kalendāri",
     "Disconnect" : "Atvienot",
     "Connect" : "Savienoties",
+    "Calendar" : "Kalendārs",
+    "Start" : "Sākums",
+    "Refresh" : "Atsvaidzināt",
+    "Dismiss" : "Atmest",
+    "Close" : "Aizvērt",
     "Every hour" : "Katru stundu",
     "never" : "nekad"
 },

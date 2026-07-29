@@ -11,6 +11,10 @@ OC.L10N.register(
     "Events" : "Настани",
     "Disconnect" : "Исклучи",
     "Connect" : "Поврзи се",
+    "Calendar" : "Календар",
+    "Refresh" : "Освежи",
+    "Dismiss" : "Отфрли",
+    "Close" : "Затвори",
     "never" : "никогаш",
     "Synchronization failed" : "Неуспешно синхронизирање"
 },

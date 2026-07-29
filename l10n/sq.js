@@ -8,6 +8,11 @@ OC.L10N.register(
     "Contacts" : "Kontaktet",
     "Disconnect" : "Shkëputu",
     "Connect" : "Lidhu",
+    "Calendar" : "Kalendar",
+    "Start" : "Fillo",
+    "Refresh" : "Rifreskoje",
+    "Dismiss" : "Hiq",
+    "Close" : "Mbylleni",
     "never" : "kurrë"
 },
 "nplurals=2; plural=(n != 1);");

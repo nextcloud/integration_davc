@@ -9,6 +9,10 @@ OC.L10N.register(
     "Contacts" : "Contactes",
     "Calendars" : "Calendièrs",
     "Connect" : "Connectar",
+    "Calendar" : "Calendièr",
+    "Refresh" : "Refrescar",
+    "Dismiss" : "Regetar",
+    "Close" : "Plegar",
     "never" : "pas jamai",
     "Synchronization failed" : "Sincronizacion fracassada"
 },

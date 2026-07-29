@@ -6,6 +6,9 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Save" : "រក្សាទុក",
     "Connect" : "ភ្ជាប់",
+    "Calendar" : "ប្រតិទិន",
+    "Dismiss" : "Dismiss",
+    "Close" : "បិទ",
     "never" : "មិនដែរ"
 },
 "nplurals=1; plural=0;");

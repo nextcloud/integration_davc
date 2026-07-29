@@ -10,6 +10,12 @@
     "Disconnect" : "断开连接",
     "Basic" : "基本",
     "Connect" : "连接",
+    "Calendar" : "日历",
+    "Direction" : "方向",
+    "Start" : "起点",
+    "Refresh" : "刷新",
+    "Dismiss" : "关闭",
+    "Close" : "关闭",
     "never" : "从不",
     "Synchronized" : "已同步",
     "Synchronization failed" : "同步失败"

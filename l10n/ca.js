@@ -2,6 +2,8 @@ OC.L10N.register(
     "integration_davc",
     {
     "Connected accounts" : "Comptes connectats",
+    "Edit template" : "Edita la plantilla",
+    "Add template" : "Afegeix una plantilla",
     "Edit" : "Edició",
     "Delete" : "Suprimir",
     "Cancel" : "Cancel",
@@ -10,7 +12,9 @@ OC.L10N.register(
     "Calendars" : "Calendaris",
     "Events" : "Esdeveniments",
     "Disconnect" : "Desconnecta",
+    "Account ID" : "ID del compte",
     "Connect" : "Connecta",
+    "Start" : "Inici",
     "never" : "mai",
     "Synchronized" : "Sincronitzat",
     "Synchronization failed" : "S'ha produït un error en la sincronització"

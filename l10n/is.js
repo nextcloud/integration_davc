@@ -10,6 +10,11 @@ OC.L10N.register(
     "Events" : "Atburðir",
     "Disconnect" : "Aftengjast",
     "Connect" : "Tengjast",
+    "Calendar" : "Dagatal",
+    "Start" : "Byrjun",
+    "Refresh" : "Endurnýja",
+    "Dismiss" : "Dismiss",
+    "Close" : "Loka",
     "never" : "aldrei",
     "Synchronized" : "Samstillt",
     "Synchronization failed" : "Samstilling mistókst"

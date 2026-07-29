@@ -4,6 +4,10 @@
     "Cancel" : "Cancel",
     "Save" : "Simpan",
     "Connect" : "Berhubung",
+    "Calendar" : "Kalendar",
+    "Refresh" : "Refresh",
+    "Dismiss" : "Dismiss",
+    "Close" : "Tutup",
     "never" : "jangan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
