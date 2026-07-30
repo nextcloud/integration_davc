@@ -14,7 +14,11 @@ OC.L10N.register(
     "Disconnect" : "Desconnecta",
     "Account ID" : "ID del compte",
     "Connect" : "Connecta",
+    "Calendar" : "Calendari",
     "Start" : "Inici",
+    "Refresh" : "Actualitza",
+    "Dismiss" : "Descarta",
+    "Close" : "Tanca",
     "never" : "mai",
     "Synchronized" : "Sincronitzat",
     "Synchronization failed" : "S'ha produït un error en la sincronització"

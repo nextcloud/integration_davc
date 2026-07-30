@@ -2,6 +2,8 @@ OC.L10N.register(
     "integration_davc",
     {
     "Connected accounts" : "Prijungtos paskyros",
+    "Connect Nextcloud to a DAV service" : "Prijunkite „Nextcloud“ prie DAV paslaugos",
+    "DAV Connector allows you connect any compatible DAV service to Nextcloud" : "„DAV Connector“ leidžia prie „Nextcloud“ prijungti bet kurią suderinamą DAV paslaugą.",
     "Edit template" : "Taisyti šabloną",
     "Add template" : "Pridėti šabloną",
     "Edit" : "Redaguoti",

@@ -10,6 +10,10 @@ OC.L10N.register(
     "Events" : "Eventos",
     "Disconnect" : "Desconectar",
     "Connect" : "Coneutar",
+    "Calendar" : "Calendariu",
+    "Refresh" : "Anovar",
+    "Dismiss" : "Escartar",
+    "Close" : "Zarrar",
     "never" : "enxamás",
     "Synchronization failed" : "La sincronización falló"
 },

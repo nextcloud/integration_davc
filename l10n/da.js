@@ -17,6 +17,8 @@ OC.L10N.register(
     "Calendar" : "Kalender",
     "Direction" : "Retning",
     "Refresh" : "Opdatér",
+    "Dismiss" : "Afvis",
+    "Close" : "Luk",
     "Every hour" : "Hver time",
     "never" : "aldrig",
     "Synchronized" : "Synkroniséret",

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Start" : "Komenco",
     "Refresh" : "Aktualigi",
     "Dismiss" : "Preterpasi",
+    "Close" : "Malfermi",
     "never" : "neniam"
 },
 "nplurals=2; plural=(n != 1);");

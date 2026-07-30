@@ -71,6 +71,7 @@ OC.L10N.register(
     "Start" : "Start",
     "Refresh" : "Refresh",
     "Dismiss" : "Dismiss",
+    "Close" : "Close",
     "Every 5 minutes" : "Every 5 minutes",
     "Every 15 minutes" : "Every 15 minutes",
     "Every 30 minutes" : "Every 30 minutes",

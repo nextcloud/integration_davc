@@ -4,6 +4,10 @@
     "Cancel" : "Cancel",
     "Save" : "Saxla",
     "Connect" : "Qoşul",
+    "Calendar" : "Təqvim",
+    "Refresh" : "Yenilə",
+    "Dismiss" : "Rədd et",
+    "Close" : "Bağla",
     "never" : "heç vaxt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

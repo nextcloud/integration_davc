@@ -8,6 +8,11 @@ OC.L10N.register(
     "Contacts" : "Кантакты",
     "Calendars" : "Календары",
     "Events" : "Падзеі",
+    "Calendar" : "Каляндар",
+    "Start" : "Запусціць",
+    "Refresh" : "Абнавіць",
+    "Dismiss" : "Адхіліць",
+    "Close" : "Закрыць",
     "Every hour" : "Штогадзіну",
     "never" : "ніколі"
 },

@@ -11,6 +11,12 @@ OC.L10N.register(
     "Events" : "أحداث",
     "Disconnect" : "قطع الاتصال",
     "Connect" : "اتصال",
+    "Calendar" : "التقويم",
+    "Direction" : "الاتجاه",
+    "Start" : "ابدأ",
+    "Refresh" : "إنعاش",
+    "Dismiss" : "الغاء",
+    "Close" : "إغلاق",
     "never" : "أبداً",
     "Synchronization failed" : "فشل في المزامنة"
 },

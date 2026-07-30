@@ -70,6 +70,8 @@ OC.L10N.register(
     "Direction" : "Κατεύθυνση",
     "Start" : "Έναρξη",
     "Refresh" : "Ανανέωση",
+    "Dismiss" : "Απόρριψη",
+    "Close" : "Κλείσιμο",
     "Every 5 minutes" : "Κάθε 5 λεπτά",
     "Every 15 minutes" : "Κάθε 15 λεπτά",
     "Every 30 minutes" : "Κάθε 30 λεπτά",
