@@ -82,7 +82,7 @@
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Este serviço executa apenas uma migração por vez. Ele avança em segundo plano aproximadamente uma vez por ciclo do cron, o que pode levar vários minutos — fique à vontade para fechar esta caixa de diálogo e verificar novamente mais tarde.",
     "Status: {status}" : "Status: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "Na última verificação: {offset} processados (criados: {created}, atualizados: {updated}, ignorados: {skipped}, erros: {errors})",
-    "Start" : "Início",
+    "Start" : "Iniciar",
     "Refresh" : "Atualizar",
     "Dismiss" : "Descartar",
     "Close" : "Fechar",
