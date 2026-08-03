@@ -35,6 +35,7 @@ class RemoteClient {
 	public const DAV_DISPLAYNAME = '{DAV:}displayname';
 	public const DAV_OWNER = '{DAV:}owner';
 	public const DAV_ACL = '{DAV:}acl';
+	public const DAV_CURRENT_USER_PRIVILEGE_SET = '{DAV:}current-user-privilege-set';
 	public const CALDAV_CALENDAR_TYPE = '{urn:ietf:params:xml:ns:caldav}calendar';
 	public const CALDAV_CALENDAR_HOME_SET = '{urn:ietf:params:xml:ns:caldav}calendar-home-set';
 	public const CALDAV_CALENDAR_DESCRIPTION = '{urn:ietf:params:xml:ns:caldav}calendar-description';

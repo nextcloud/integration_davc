@@ -49,6 +49,8 @@ class RemoteConvert {
 				}
 			}
 
+			$principal = self::extractUrlPath($principal);
+
 			foreach ($privileges as $privilege) {
 				$permissions[$principal][] = $privilege;
 			}

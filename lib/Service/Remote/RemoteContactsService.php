@@ -26,6 +26,7 @@ class RemoteContactsService {
 		RemoteClient::CARDDAV_MAX_RESOURCE_SIZE,
 		RemoteClient::DAV_OWNER,
 		RemoteClient::DAV_ACL,
+		RemoteClient::DAV_CURRENT_USER_PRIVILEGE_SET,
 		RemoteClient::DAV_SYNC_TOKEN,
 		RemoteClient::CALENDARSERVER_GETCTAG,
 		RemoteClient::SABREDAV_SYNC_TOKEN,
@@ -339,20 +340,27 @@ class RemoteContactsService {
 		$to->label = $so[RemoteClient::DAV_DISPLAYNAME] ?? null;
 		$to->description = $so[RemoteClient::CARDDAV_ADDRESSBOOK_DESCRIPTION] ?? null;
 
-		if (isset($so[RemoteClient::DAV_OWNER])) {
-			$owner = RemoteConvert::extractPrincipal($so[RemoteClient::DAV_OWNER]);
-			$acl = $so[RemoteClient::DAV_ACL] ?? null;
+		$principalUrl = RemoteConvert::extractUrlPath($this->dataStore->getPrincipalUrl());
+		$currentUserPrivilegeSet = $so[RemoteClient::DAV_CURRENT_USER_PRIVILEGE_SET] ?? null;
+		$acl = $so[RemoteClient::DAV_ACL] ?? null;
+		$owner = isset($so[RemoteClient::DAV_OWNER]) ? RemoteConvert::extractPrincipal($so[RemoteClient::DAV_OWNER]) : null;
 
-			if (is_array($acl)) {
-				$permissions = RemoteConvert::extractPermissions($acl);
-				$to->permissions = $permissions[$owner] ?? [];
-			} elseif ($owner !== null && RemoteConvert::extractUrlPath($owner) === $this->dataStore->getPrincipalUrl()) {
-				// Server did not return ACL entries; infer owner-level permission from the
-				// {DAV:}all property when it matches the authenticated principal.
-				$to->permissions = ['{DAV:}all'];
-			} else {
-				$to->permissions = [];
-			}
+		if (is_array($currentUserPrivilegeSet)) {
+			// server-resolved effective privileges for the authenticated user, per RFC 3744 5.4;
+			// does not depend on {DAV:}owner or on matching principal hrefs from {DAV:}acl ourselves
+			$to->permissions = RemoteConvert::extractPrivilegeNames($currentUserPrivilegeSet);
+		} elseif (is_array($acl)) {
+			// best-effort fallback: only the ACE granted directly to the authenticated
+			// principal is used, since {DAV:}acl may also contain unrelated ACEs (e.g. for
+			// other users or groups) that must not be attributed to the current user
+			$permissions = RemoteConvert::extractPermissions($acl);
+			$to->permissions = $permissions[$principalUrl] ?? [];
+		} elseif ($owner !== null && RemoteConvert::extractUrlPath($owner) === $principalUrl) {
+			// Server did not return ACL entries or a privilege set; infer owner-level
+			// permission when the collection owner matches the authenticated principal.
+			$to->permissions = ['{DAV:}all'];
+		} else {
+			$to->permissions = [];
 		}
 
 		return $to;
