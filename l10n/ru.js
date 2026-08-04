@@ -19,6 +19,7 @@ OC.L10N.register(
     "Dismiss" : "Скрыть",
     "Close" : "Закрыть",
     "never" : "никогда",
+    "New connection" : "Новое соединение",
     "Synchronized" : "Синхронизировано",
     "Synchronization failed" : "Сбой синхронизации"
 },
