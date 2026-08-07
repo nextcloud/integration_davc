@@ -66,6 +66,8 @@ OC.L10N.register(
     "Every 6 hours" : "Toutes les 6 heures",
     "Every 12 hours" : "Toutes les 12 heures",
     "Once a day" : "Une fois par jour",
+    "DAV admin configuration saved" : "Configuration d'administration DAV enregistrée",
+    "Failed to save DAV admin configuration" : "Échec de l'enregistrement de la configuration d'administration DAV",
     "Select the system settings for DAV Integration" : "Sélectionnez les paramètres système de l'intégration DAV",
     "Synchronization interval" : "Intervalle de synchronisation",
     "Forbid insecure (HTTP) connections" : "Interdire les connexions non sécurisées (HTTP)",
