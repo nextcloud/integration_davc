@@ -4,7 +4,9 @@
 -->
 
 <script setup lang="ts">
-import axios, { type AxiosError, type AxiosResponse } from '@nextcloud/axios'
+import type { AxiosError, AxiosResponse } from '@nextcloud/axios'
+
+import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
