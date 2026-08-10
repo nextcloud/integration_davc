@@ -81,6 +81,7 @@ OC.L10N.register(
     "Synchronization failed" : "Échec de synchronisation",
     "Failed to load service list" : "Échec du chargement de la liste des services",
     "Saved correlations" : "Corrélations sauvegardées",
-    "Services" : "Services"
+    "Services" : "Services",
+    "Connected as {0} to {1}" : "Connecté en tant que {0} sur {1}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
