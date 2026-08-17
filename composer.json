@@ -10,9 +10,9 @@
         "php": ">=8.2 <=8.5"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8",
         "nextcloud/coding-standard": "^1.5.0",
         "nextcloud/ocp": "^34.0",
-        "phpunit/phpunit": "^11.5",
         "psalm/phar": "^6.16"
     },
     "config": {
@@ -21,11 +21,20 @@
         },
         "sort-packages": true,
         "optimize-autoloader": true,
-        "autoloader-suffix": "DAVC"
+        "autoloader-suffix": "DAVC",
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
     },
     "autoload": {
         "psr-4": {
             "OCA\\DAVC\\": "lib/"
+        }
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": false
         }
     },
     "scripts": {
@@ -38,6 +47,12 @@
         "psalm:fix": "php ./vendor/bin/psalm.phar --config=psalm.xml --alter --no-cache --threads=1",
         "test:unit": "phpunit -c tests/php/phpunit.xml --testsuite 'Unit Tests'",
         "test:integration:db": "phpunit -c tests/php/phpunit.xml --testsuite 'Database Tests'",
-        "test:integration:dav": "phpunit -c tests/php/phpunit.xml --testsuite 'Dav Tests'"
+        "test:integration:dav": "phpunit -c tests/php/phpunit.xml --testsuite 'Dav Tests'",
+        "post-install-cmd": [
+            "@composer bin all install --ansi"
+        ],
+        "post-update-cmd": [
+            "@composer bin all install --ansi"
+        ]
     }
 }
