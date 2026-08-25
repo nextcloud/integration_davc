@@ -4,7 +4,7 @@
     <name>DAV Connector</name>
     <summary>Connect Nextcloud to a DAV service</summary>
     <description><![CDATA[DAV Connector allows you connect any compatible DAV service to Nextcloud]]></description>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <licence>AGPL-3.0-or-later</licence>
     <author mail="krupinski01@gmail.com">Sebastian Krupinski</author>
     <namespace>DAVC</namespace>
@@ -22,7 +22,7 @@
     <screenshot>https://github.com/nextcloud/integration_davc</screenshot>
     <dependencies>
         <php min-version="8.2" max-version="8.5"  min-int-size="64" />
-        <nextcloud min-version="32" max-version="35"/>
+        <nextcloud min-version="32" max-version="36"/>
     </dependencies>
     <commands>
 		<command>OCA\DAVC\Commands\Connect</command>
