@@ -6,11 +6,13 @@
     "Delete" : "Slet",
     "Cancel" : "Annullér",
     "Save" : "Gem",
+    "Connection" : "Forbindelse",
     "Contacts" : "Kontakter",
     "Calendars" : "Kalendere",
     "Events" : "Begivenheder",
     "Disconnect" : "Frakobl",
     "Account ID" : "Konto- id",
+    "Basic" : "Grundlæggende",
     "Connect" : "Forbind",
     "Calendar" : "Kalender",
     "Direction" : "Retning",
@@ -19,6 +21,7 @@
     "Close" : "Luk",
     "Every hour" : "Hver time",
     "never" : "aldrig",
+    "New connection" : "Ny forbindelse",
     "Synchronized" : "Synkroniséret",
     "Synchronization failed" : "Synkroniseringen mislykkedes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
