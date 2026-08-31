@@ -1,6 +1,6 @@
 {
   "name": "integration_davc",
-  "version": "1.0.4",
+  "version": "1.2.0",
   "description": "Nextcloud DAV Connector",
   "license": "AGPL-3.0-or-later",
   "author": "Sebastian Krupinski <krupinski01@gmail.com>",
@@ -14,7 +14,8 @@
     "lint:fix": "eslint --fix",
     "stylelint": "stylelint \"src/**/*.scss\" \"src/**/*.vue\"",
     "stylelint:fix": "stylelint \"src/**/*.scss\" \"src/**/*.vue\" --fix",
-    "ts:check": "vue-tsc --noEmit"
+    "ts:check": "vue-tsc --noEmit",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "engines": {
     "node": "^24.0.0",
@@ -40,6 +41,7 @@
     "@rspack/cli": "^2.0.2",
     "@rspack/core": "^2.0.2",
     "@vue/tsconfig": "^0.9.1",
+    "conventional-changelog-cli": "^5.0.0",
     "css-loader": "^7.1.4",
     "path-browserify": "^1.0.1",
     "sass": "^1.99.0",
