@@ -6,6 +6,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Save" : "Späicheren",
     "Calendars" : "Kalenneren",
+    "Events" : "Evenementer",
     "Connect" : "Verbannen",
     "Calendar" : "Kalenner",
     "Refresh" : "Opfrëschen",
