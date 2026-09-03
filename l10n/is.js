@@ -6,6 +6,7 @@ OC.L10N.register(
     "Delete" : "Eyða",
     "Cancel" : "Cancel",
     "Save" : "Vista",
+    "Contacts" : "Tengiliðir",
     "Calendars" : "Dagatöl",
     "Events" : "Atburðir",
     "Disconnect" : "Aftengjast",

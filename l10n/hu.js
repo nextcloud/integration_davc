@@ -10,6 +10,7 @@ OC.L10N.register(
     "Calendars" : "Naptárak",
     "Events" : "Események",
     "Disconnect" : "Kapcsolat bontása",
+    "Basic" : "Alapvető",
     "Connect" : "Kapcsolódás",
     "Calendar" : "Naptár",
     "Direction" : "Irány",
