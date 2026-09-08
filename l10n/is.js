@@ -16,6 +16,7 @@ OC.L10N.register(
     "Refresh" : "Endurnýja",
     "Dismiss" : "Dismiss",
     "Close" : "Loka",
+    "Every hour" : "Á klukkustundar fresti",
     "never" : "aldrei",
     "Synchronized" : "Samstillt",
     "Synchronization failed" : "Samstilling mistókst"
