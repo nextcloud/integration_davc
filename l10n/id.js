@@ -10,6 +10,7 @@ OC.L10N.register(
     "Calendars" : "Kalender",
     "Events" : "Acara",
     "Disconnect" : "Terputus",
+    "Basic" : "Dasar",
     "Connect" : "Hubungkan",
     "Calendar" : "Kalender",
     "Direction" : "Arah",
