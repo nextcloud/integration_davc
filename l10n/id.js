@@ -2,14 +2,18 @@ OC.L10N.register(
     "integration_davc",
     {
     "Connected accounts" : "Akun yang terhubung",
+    "Edit template" : "Sunting template",
+    "Add template" : "Tambah template",
     "Edit" : "Edit",
     "Delete" : "Hapus",
     "Cancel" : "Batal",
     "Save" : "Simpan",
+    "Connection" : "Koneksi",
     "Contacts" : "Kontak",
     "Calendars" : "Kalender",
     "Events" : "Acara",
     "Disconnect" : "Terputus",
+    "Account ID" : "ID Akun",
     "Basic" : "Dasar",
     "Connect" : "Hubungkan",
     "Calendar" : "Kalender",
@@ -20,6 +24,7 @@ OC.L10N.register(
     "Close" : "Tutup",
     "Every hour" : "Setiap jam",
     "never" : "tidak pernah",
+    "New connection" : "Koneksi baru",
     "Synchronization failed" : "Sinkronisasi gagal"
 },
 "nplurals=1; plural=0;");
