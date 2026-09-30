@@ -60,27 +60,33 @@ class EventStore extends BaseStore {
 			$rangerStart = $range->getStart()->format('U');
 			$rangerEnd = $range->getEnd()->format('U');
 			$cmd->andWhere($cmd->expr()->orX(
-				// case 1
+				// case 1: event starts and ends within range
 				$cmd->expr()->andX(
 					$cmd->expr()->gte('startson', $cmd->createNamedParameter($rangerStart)),
 					$cmd->expr()->lte('endson', $cmd->createNamedParameter($rangerEnd)),
 				),
-				// case 2
+				// case 2: event starts before range and ends within range
 				$cmd->expr()->andX(
 					$cmd->expr()->lt('startson', $cmd->createNamedParameter($rangerStart)),
 					$cmd->expr()->gte('endson', $cmd->createNamedParameter($rangerStart)),
 					$cmd->expr()->lte('endson', $cmd->createNamedParameter($rangerEnd))
 				),
-				// case 3
+				// case 3: event starts within range and ends after range
 				$cmd->expr()->andX(
 					$cmd->expr()->gte('startson', $cmd->createNamedParameter($rangerStart)),
 					$cmd->expr()->lte('startson', $cmd->createNamedParameter($rangerEnd)),
 					$cmd->expr()->gt('endson', $cmd->createNamedParameter($rangerEnd))
 				),
-				// case 4
+				// case 4: event spans entire range
 				$cmd->expr()->andX(
 					$cmd->expr()->lt('startson', $cmd->createNamedParameter($rangerStart)),
 					$cmd->expr()->gt('endson', $cmd->createNamedParameter($rangerEnd))
+				),
+				// case 5: recurring event with base occurrence before range;
+				// expand() in CalendarImpl generates and filters the actual instances
+				$cmd->expr()->andX(
+					$cmd->expr()->lt('startson', $cmd->createNamedParameter($rangerStart)),
+					$cmd->expr()->like('data', $cmd->createNamedParameter('%RRULE:%'))
 				)
 			));
 		}
