@@ -18,6 +18,7 @@ OC.L10N.register(
     "Connect" : "Forbind",
     "Calendar" : "Kalender",
     "Direction" : "Retning",
+    "Start" : "Start",
     "Refresh" : "Opdatér",
     "Dismiss" : "Afvis",
     "Close" : "Luk",
