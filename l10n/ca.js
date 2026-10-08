@@ -15,6 +15,7 @@ OC.L10N.register(
     "Account ID" : "ID del compte",
     "Connect" : "Connecta",
     "Calendar" : "Calendari",
+    "Direction" : "Direcció",
     "Start" : "Inici",
     "Refresh" : "Actualitza",
     "Dismiss" : "Descarta",
