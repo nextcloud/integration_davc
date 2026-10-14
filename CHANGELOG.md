@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/nextcloud/integration_davc/compare/v1.2.0...v1.2.1) (2026-10-14)
+
+
+### Bug Fixes
+
+* don't run composer post install when not in dev mode ([71b7f49](https://github.com/nextcloud/integration_davc/commit/71b7f49b11d356a93397e7680f56a52a7dda0125))
 # [1.2.0](https://github.com/nextcloud/integration_davc/compare/v1.1.0...v1.2.0) (2026-08-31)
 
 
