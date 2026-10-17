@@ -12,6 +12,7 @@ OC.L10N.register(
     "Disconnect" : "Исклучи",
     "Connect" : "Поврзи се",
     "Calendar" : "Календар",
+    "Start" : "Старт",
     "Refresh" : "Освежи",
     "Dismiss" : "Отфрли",
     "Close" : "Затвори",
