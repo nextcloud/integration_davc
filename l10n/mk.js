@@ -10,6 +10,7 @@ OC.L10N.register(
     "Calendars" : "Календари",
     "Events" : "Настани",
     "Disconnect" : "Исклучи",
+    "Basic" : "Основно",
     "Connect" : "Поврзи се",
     "Calendar" : "Календар",
     "Start" : "Старт",
