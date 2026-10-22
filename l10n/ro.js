@@ -10,6 +10,7 @@ OC.L10N.register(
     "Calendars" : "Calendare",
     "Events" : "Evenimente",
     "Disconnect" : "Deconectare",
+    "Basic" : "De bază",
     "Connect" : "Conectare",
     "Calendar" : "Calendar",
     "Start" : "Început",
