@@ -13,6 +13,7 @@ OC.L10N.register(
     "Basic" : "De bază",
     "Connect" : "Conectare",
     "Calendar" : "Calendar",
+    "Direction" : "Direcție",
     "Start" : "Început",
     "Refresh" : "Reîmprospătează",
     "Dismiss" : "Elimină",
