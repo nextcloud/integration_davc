@@ -14,6 +14,7 @@ OC.L10N.register(
     "Dismiss" : "Regetar",
     "Close" : "Plegar",
     "never" : "pas jamai",
-    "Synchronization failed" : "Sincronizacion fracassada"
+    "Synchronization failed" : "Sincronizacion fracassada",
+    "Connected as {0} to {1}" : "Connectat coma {0} a {1}"
 },
 "nplurals=2; plural=(n > 1);");
