@@ -6,6 +6,7 @@ OC.L10N.register(
     "Add template" : "Tambah template",
     "Edit" : "Edit",
     "Delete" : "Hapus",
+    "Email domain" : "Domain email",
     "Cancel" : "Batal",
     "Save" : "Simpan",
     "Connection" : "Koneksi",

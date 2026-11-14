@@ -4,6 +4,7 @@ OC.L10N.register(
     "Connected accounts" : "接続済みアカウント",
     "Edit" : "編集",
     "Delete" : "削除",
+    "Email domain" : "メールドメイン",
     "Cancel" : "キャンセル",
     "Save" : "保存する",
     "Contacts" : "連絡先",
