@@ -1,45 +1,33 @@
+
 ## [1.2.1](https://github.com/nextcloud/integration_davc/compare/v1.2.0...v1.2.1) (2026-10-14)
 
 
 ### Bug Fixes
 
 * don't run composer post install when not in dev mode ([71b7f49](https://github.com/nextcloud/integration_davc/commit/71b7f49b11d356a93397e7680f56a52a7dda0125))
-# [1.2.0](https://github.com/nextcloud/integration_davc/compare/v1.1.0...v1.2.0) (2026-08-31)
+
+# [1.2.0](https://github.com/nextcloud/integration_davc/compare/v1.1.0...v1.2.0) (2026-10-14)
 
 
 ### Bug Fixes
 
-* add resource id ([db95bb1](https://github.com/nextcloud/integration_davc/commit/db95bb19a358eadd868acddc4a1d2eeaa61af9a7))
-* adjust branding ([70b9f14](https://github.com/nextcloud/integration_davc/commit/70b9f1428ca77a99280a8f9b886e654a4af8a0cd))
-* adjust migrations ([e6915c7](https://github.com/nextcloud/integration_davc/commit/e6915c72aa4184198b87644d596012cc5923f157))
-* adjust naming ([428bd02](https://github.com/nextcloud/integration_davc/commit/428bd02656d316e3487268e2ee01ca7e829d0d0e))
-* adjust service discovery ([5a5514e](https://github.com/nextcloud/integration_davc/commit/5a5514ecf796b825faa6d7691b34511f5b7c8e42))
-* app info ([f155f6f](https://github.com/nextcloud/integration_davc/commit/f155f6f294748d825d2ec49659b73cf7734f12b2))
-* button debounce ([3e4b48f](https://github.com/nextcloud/integration_davc/commit/3e4b48fb0392ef43a09c053d4e1f155f36b3137c))
-* calendar create/modify content type ([033150b](https://github.com/nextcloud/integration_davc/commit/033150bd54432873a5c80d50f57631f25d267d3c))
-* collection properties mutation error ([a4da945](https://github.com/nextcloud/integration_davc/commit/a4da945b913aee9467461432e35b7e03629a06fb))
-* contacts entity id ([bc9d12e](https://github.com/nextcloud/integration_davc/commit/bc9d12ec6744d37b4d7bce6b32312ab489902ba1))
-* dav collections ([9f7d197](https://github.com/nextcloud/integration_davc/commit/9f7d197fc650c69149c56b229c5097dab7251592))
-* default ACL to all when missing and write properties ([abeb53a](https://github.com/nextcloud/integration_davc/commit/abeb53ad4ab30637b513831e64d5b1dc93c1f24b))
-* default empty service path to /.well-known/caldav ([ab7015f](https://github.com/nextcloud/integration_davc/commit/ab7015f88218dfbb413342d14d509cbed37baa02))
-* default permissions, when empty or null ([eb1ee9a](https://github.com/nextcloud/integration_davc/commit/eb1ee9ae8fe12eaf89ee229d5567fe018d038786))
+* **deps:** Fix npm audit ([a8890b9](https://github.com/nextcloud/integration_davc/commit/a8890b9467e0b90a6e393636fd9ad37036b508dd))
+* **deps:** Fix npm audit ([4a29c83](https://github.com/nextcloud/integration_davc/commit/4a29c83255c497de9d49183aff2f6b1fdb6eb203))
+* **deps:** Fix npm audit ([13185f1](https://github.com/nextcloud/integration_davc/commit/13185f1d4cb39aed32850988aebe6d0071674052))
+* **deps:** Fix npm audit ([10afd2c](https://github.com/nextcloud/integration_davc/commit/10afd2c615f57bddac4f0e4f9436d50f8fd54a36))
 * **deps:** Fix npm audit ([f2e20c6](https://github.com/nextcloud/integration_davc/commit/f2e20c69b76573aebba308a4a617e994fa20a641))
 * **deps:** Fix npm audit ([6af085a](https://github.com/nextcloud/integration_davc/commit/6af085ad93eabb9af2af5e681be76888194a69fb))
-* **deps:** Fix npm audit ([f497b53](https://github.com/nextcloud/integration_davc/commit/f497b53f50382c73a2d12785c17c756ab375eaae))
-* **deps:** Fix npm audit ([f5a9a2e](https://github.com/nextcloud/integration_davc/commit/f5a9a2e1849ecad57249d020678838192919a24b))
-* **deps:** update dependency @nextcloud/dialogs to v7 ([7b89510](https://github.com/nextcloud/integration_davc/commit/7b89510651c569f0bc00d9c3aa02dc49ffcea0a5))
-* empty dav permissions ([2acb0a6](https://github.com/nextcloud/integration_davc/commit/2acb0a6c02aee7e4e75a268651ee63b9c147920f))
-* end date extraction ([7c52129](https://github.com/nextcloud/integration_davc/commit/7c52129dcc9d682d2d09f89f34169d4253b797c5))
-* events service read only property ([2f2c8a6](https://github.com/nextcloud/integration_davc/commit/2f2c8a69b434dba14c8671e999d1c3ddf377e9c7))
-* follow HTTP 301 redirects during DAV discovery ([d59edad](https://github.com/nextcloud/integration_davc/commit/d59edad442eaa1d6c28014e068a7be5b863bed66))
-* force login with options ([be16167](https://github.com/nextcloud/integration_davc/commit/be161679958200931074246f7bbea16412391167))
-* handle data streams properly ([d43ff9b](https://github.com/nextcloud/integration_davc/commit/d43ff9bf2e8f478755ff80e10f785e9c050018cb))
-* handle null path correctly with builing that url ([4617f96](https://github.com/nextcloud/integration_davc/commit/4617f969f6702b60999cf3c9d58acf09f79d2b85))
-* improve admin settings user actions ([c7728b8](https://github.com/nextcloud/integration_davc/commit/c7728b89e254a7c2bc424e862a3126da182e7444))
-* improve connection logic ([b4b6500](https://github.com/nextcloud/integration_davc/commit/b4b650005c8ddfcd45f9272b6d39c3401612b6f4))
-* improve connection screen actions ([6a37222](https://github.com/nextcloud/integration_davc/commit/6a37222d4ebb08e53ff455373a03f9665263dbdc))
-* inconsistant collection state on save ([7d19713](https://github.com/nextcloud/integration_davc/commit/7d19713d02554ef8cba39b61c510e08e425c03c0))
-* initial sync signature ([a4e68f9](https://github.com/nextcloud/integration_davc/commit/a4e68f968d271a49f3beec224d74f3eb26167ff2))
+* **l10n:** Update translations from Transifex ([a710090](https://github.com/nextcloud/integration_davc/commit/a710090e8f0c0ce23f2a4067390902b67679c673))
+* **l10n:** Update translations from Transifex ([7ac0dac](https://github.com/nextcloud/integration_davc/commit/7ac0dace14a743f17dbfc7db6d739bf5ad5c1681))
+* **l10n:** Update translations from Transifex ([2fd2bef](https://github.com/nextcloud/integration_davc/commit/2fd2bef7365a61ef940b680320613bb2b58f36f0))
+* **l10n:** Update translations from Transifex ([198ecb8](https://github.com/nextcloud/integration_davc/commit/198ecb82b9531ac78ef028942ef2ecc66acc1995))
+* **l10n:** Update translations from Transifex ([786048f](https://github.com/nextcloud/integration_davc/commit/786048f614e8d8130a8fe4de5836a0082d82bbb8))
+* **l10n:** Update translations from Transifex ([8dc95d1](https://github.com/nextcloud/integration_davc/commit/8dc95d1ca2afe24e7d15b4a5a3d66bada50c3d61))
+* **l10n:** Update translations from Transifex ([68c230f](https://github.com/nextcloud/integration_davc/commit/68c230f347639f622cd3a2f466f18e2a061b9090))
+* **l10n:** Update translations from Transifex ([eb19953](https://github.com/nextcloud/integration_davc/commit/eb199537f09fe64c80ef90300caefa937b43475b))
+* **l10n:** Update translations from Transifex ([c9199ad](https://github.com/nextcloud/integration_davc/commit/c9199ad6b769e4eccafb280dc577a88870926939))
+* **l10n:** Update translations from Transifex ([dd7a8f8](https://github.com/nextcloud/integration_davc/commit/dd7a8f8a8b4dd92ef0ea8d535728508de7811a91))
+* **l10n:** Update translations from Transifex ([bd9d016](https://github.com/nextcloud/integration_davc/commit/bd9d0161cbc753c6540ba67aa9e72e7cb27acf0a))
 * **l10n:** Update translations from Transifex ([134f985](https://github.com/nextcloud/integration_davc/commit/134f985f98eae9bf14780237e615be1182d660ea))
 * **l10n:** Update translations from Transifex ([2379bac](https://github.com/nextcloud/integration_davc/commit/2379bac5317d913aa7c6cbc90bfaf0693c0e6170))
 * **l10n:** Update translations from Transifex ([3459680](https://github.com/nextcloud/integration_davc/commit/3459680424a544f56f0794f82f979ce3ab06acfa))
@@ -56,6 +44,17 @@
 * **l10n:** Update translations from Transifex ([a0014a8](https://github.com/nextcloud/integration_davc/commit/a0014a80da7feed367b302aa2a82357d5984c6ae))
 * **l10n:** Update translations from Transifex ([d6a8dbc](https://github.com/nextcloud/integration_davc/commit/d6a8dbc1b13bbf85f551504501209be571108083))
 * **l10n:** Update translations from Transifex ([644af9a](https://github.com/nextcloud/integration_davc/commit/644af9a4ae5b31290512697fe56293a5ea2326ab))
+* try to use current-user-privilege-set for permissions ([eb3abff](https://github.com/nextcloud/integration_davc/commit/eb3abff2b2c5d141e6d62be5d2e3e05c03d0d123))
+
+# [1.1.0](https://github.com/nextcloud/integration_davc/compare/v1.0.4...v1.1.0) (2026-07-28)
+
+
+### Bug Fixes
+
+* end date extraction ([7c52129](https://github.com/nextcloud/integration_davc/commit/7c52129dcc9d682d2d09f89f34169d4253b797c5))
+* handle data streams properly ([d43ff9b](https://github.com/nextcloud/integration_davc/commit/d43ff9bf2e8f478755ff80e10f785e9c050018cb))
+* inconsistant collection state on save ([7d19713](https://github.com/nextcloud/integration_davc/commit/7d19713d02554ef8cba39b61c510e08e425c03c0))
+* initial sync signature ([a4e68f9](https://github.com/nextcloud/integration_davc/commit/a4e68f968d271a49f3beec224d74f3eb26167ff2))
 * **l10n:** Update translations from Transifex ([7c70db7](https://github.com/nextcloud/integration_davc/commit/7c70db71a6fd0ec3128edce586e68cd9a8fe0d62))
 * **l10n:** Update translations from Transifex ([8125cfe](https://github.com/nextcloud/integration_davc/commit/8125cfeea29b8165eef735cef79c5ff668bd0bae))
 * **l10n:** Update translations from Transifex ([c74ec95](https://github.com/nextcloud/integration_davc/commit/c74ec95ff5628ab928c4ad9ef3e86f102b3c47c2))
@@ -66,24 +65,93 @@
 * **l10n:** Update translations from Transifex ([db4583d](https://github.com/nextcloud/integration_davc/commit/db4583d80b469f7a6fea1df875c051939cf33b3c))
 * **l10n:** Update translations from Transifex ([3d469ab](https://github.com/nextcloud/integration_davc/commit/3d469ab1a0710779d8e2fb1d64c9552d759bfa72))
 * **l10n:** Update translations from Transifex ([1a4d348](https://github.com/nextcloud/integration_davc/commit/1a4d3481924456ffe050144ca7da1eee3a5bd3bd))
+* type Bool and also NotNull ([4fd49b1](https://github.com/nextcloud/integration_davc/commit/4fd49b1fbd21d3a17cda205c784dc6a5b30289ad))
+
+
+### Features
+
+* data migration ([e248047](https://github.com/nextcloud/integration_davc/commit/e2480474653ab491561a01047802698755701497))
+* mirror calendar component set ([bb1f510](https://github.com/nextcloud/integration_davc/commit/bb1f51001fafe1d2689d24c0ec23c153d07ff590))
+
+## [1.0.4](https://github.com/nextcloud/integration_davc/compare/v1.0.3...v1.0.4) (2026-06-30)
+
+
+### Bug Fixes
+
+* default ACL to all when missing and write properties ([abeb53a](https://github.com/nextcloud/integration_davc/commit/abeb53ad4ab30637b513831e64d5b1dc93c1f24b))
+* default empty service path to /.well-known/caldav ([ab7015f](https://github.com/nextcloud/integration_davc/commit/ab7015f88218dfbb413342d14d509cbed37baa02))
+* events service read only property ([2f2c8a6](https://github.com/nextcloud/integration_davc/commit/2f2c8a69b434dba14c8671e999d1c3ddf377e9c7))
+* follow HTTP 301 redirects during DAV discovery ([d59edad](https://github.com/nextcloud/integration_davc/commit/d59edad442eaa1d6c28014e068a7be5b863bed66))
+* handle null path correctly with builing that url ([4617f96](https://github.com/nextcloud/integration_davc/commit/4617f969f6702b60999cf3c9d58acf09f79d2b85))
 * **l10n:** Update translations from Transifex ([4f5ce51](https://github.com/nextcloud/integration_davc/commit/4f5ce5107cf109d1d08ee1f927f2030042166163))
 * **l10n:** Update translations from Transifex ([e3e57aa](https://github.com/nextcloud/integration_davc/commit/e3e57aa9a52f984cb474df6fe755d41f41e74448))
 * **l10n:** Update translations from Transifex ([d48c725](https://github.com/nextcloud/integration_davc/commit/d48c7251972bdd9cb65462fff652aa253a534eed))
 * **l10n:** Update translations from Transifex ([c0170a5](https://github.com/nextcloud/integration_davc/commit/c0170a5439cb448016041fd4bc97bbb3a80f67d6))
 * **l10n:** Update translations from Transifex ([e81a09b](https://github.com/nextcloud/integration_davc/commit/e81a09b4bcef7736999b7d68cd5ccff54c5f511f))
+* use correct Content-Type for vCard PUT requests ([b723145](https://github.com/nextcloud/integration_davc/commit/b7231454c131bec56554f76e4e3c60aec9143705))
+
+
+### Features
+
+* auto-select first account on settings page load ([6f7e848](https://github.com/nextcloud/integration_davc/commit/6f7e848e63104930cb26d80f02c544aa84d26ee7))
+* improve dns record discovery ([2da730d](https://github.com/nextcloud/integration_davc/commit/2da730dd3e1b7b33d66383ceeb1f38ecf1bdaf83))
+
+## [1.0.3](https://github.com/nextcloud/integration_davc/compare/v1.0.2...v1.0.3) (2026-06-22)
+
+
+### Bug Fixes
+
+* calendar create/modify content type ([033150b](https://github.com/nextcloud/integration_davc/commit/033150bd54432873a5c80d50f57631f25d267d3c))
+* **deps:** Fix npm audit ([f497b53](https://github.com/nextcloud/integration_davc/commit/f497b53f50382c73a2d12785c17c756ab375eaae))
+* empty dav permissions ([2acb0a6](https://github.com/nextcloud/integration_davc/commit/2acb0a6c02aee7e4e75a268651ee63b9c147920f))
+* improve admin settings user actions ([c7728b8](https://github.com/nextcloud/integration_davc/commit/c7728b89e254a7c2bc424e862a3126da182e7444))
+* improve connection screen actions ([6a37222](https://github.com/nextcloud/integration_davc/commit/6a37222d4ebb08e53ff455373a03f9665263dbdc))
 * **l10n:** Update translations from Transifex ([54d9404](https://github.com/nextcloud/integration_davc/commit/54d9404e06aa1c1dfb8a4e01905a829cd0b59371))
 * **l10n:** Update translations from Transifex ([2bd978a](https://github.com/nextcloud/integration_davc/commit/2bd978aa00fd6481550dddff18ccccded9b95c75))
 * **l10n:** Update translations from Transifex ([e6828a2](https://github.com/nextcloud/integration_davc/commit/e6828a23e6f0f861a990243893b210f99e806ea9))
 * **l10n:** Update translations from Transifex ([8c07a81](https://github.com/nextcloud/integration_davc/commit/8c07a818e75f2a2eb5ac05bc9e14d0d9e703841b))
+
+## [1.0.2](https://github.com/nextcloud/integration_davc/compare/v1.0.1...v1.0.2) (2026-06-18)
+
+
+### Bug Fixes
+
+* nothing again ([4ed8ad2](https://github.com/nextcloud/integration_davc/commit/4ed8ad21ba7ce5f2c79c4d9282fcd1b0a150710e))
+
+## [1.0.1](https://github.com/nextcloud/integration_davc/compare/v1.0.0...v1.0.1) (2026-06-18)
+
+
+### Bug Fixes
+
 * **l10n:** Update translations from Transifex ([a8edc27](https://github.com/nextcloud/integration_davc/commit/a8edc27fb7e92a1c3ae7226faaa719c136a146e2))
+* nothing ([d23c244](https://github.com/nextcloud/integration_davc/commit/d23c2443a13d6d8bc9c1855a5d78ab7fe3f79f39))
+
+# [1.0.0](https://github.com/nextcloud/integration_davc/compare/e6915c72aa4184198b87644d596012cc5923f157...v1.0.0) (2026-06-17)
+
+
+### Bug Fixes
+
+* add resource id ([db95bb1](https://github.com/nextcloud/integration_davc/commit/db95bb19a358eadd868acddc4a1d2eeaa61af9a7))
+* adjust branding ([70b9f14](https://github.com/nextcloud/integration_davc/commit/70b9f1428ca77a99280a8f9b886e654a4af8a0cd))
+* adjust migrations ([e6915c7](https://github.com/nextcloud/integration_davc/commit/e6915c72aa4184198b87644d596012cc5923f157))
+* adjust naming ([428bd02](https://github.com/nextcloud/integration_davc/commit/428bd02656d316e3487268e2ee01ca7e829d0d0e))
+* adjust service discovery ([5a5514e](https://github.com/nextcloud/integration_davc/commit/5a5514ecf796b825faa6d7691b34511f5b7c8e42))
+* app info ([f155f6f](https://github.com/nextcloud/integration_davc/commit/f155f6f294748d825d2ec49659b73cf7734f12b2))
+* button debounce ([3e4b48f](https://github.com/nextcloud/integration_davc/commit/3e4b48fb0392ef43a09c053d4e1f155f36b3137c))
+* collection properties mutation error ([a4da945](https://github.com/nextcloud/integration_davc/commit/a4da945b913aee9467461432e35b7e03629a06fb))
+* contacts entity id ([bc9d12e](https://github.com/nextcloud/integration_davc/commit/bc9d12ec6744d37b4d7bce6b32312ab489902ba1))
+* dav collections ([9f7d197](https://github.com/nextcloud/integration_davc/commit/9f7d197fc650c69149c56b229c5097dab7251592))
+* default permissions, when empty or null ([eb1ee9a](https://github.com/nextcloud/integration_davc/commit/eb1ee9ae8fe12eaf89ee229d5567fe018d038786))
+* **deps:** Fix npm audit ([f5a9a2e](https://github.com/nextcloud/integration_davc/commit/f5a9a2e1849ecad57249d020678838192919a24b))
+* **deps:** update dependency @nextcloud/dialogs to v7 ([7b89510](https://github.com/nextcloud/integration_davc/commit/7b89510651c569f0bc00d9c3aa02dc49ffcea0a5))
+* force login with options ([be16167](https://github.com/nextcloud/integration_davc/commit/be161679958200931074246f7bbea16412391167))
+* improve connection logic ([b4b6500](https://github.com/nextcloud/integration_davc/commit/b4b650005c8ddfcd45f9272b6d39c3401612b6f4))
 * **l10n:** Update translations from Transifex ([933177b](https://github.com/nextcloud/integration_davc/commit/933177b9b5a469276b3c3efe51c59baac2573c7a))
 * **l10n:** Update translations from Transifex ([d394653](https://github.com/nextcloud/integration_davc/commit/d39465362df2e619777560347be7858034f31dc5))
 * **l10n:** Update translations from Transifex ([d60d7f8](https://github.com/nextcloud/integration_davc/commit/d60d7f8d93bd382bb64c278caac7a29917f29cf9))
 * **l10n:** Update translations from Transifex ([5414102](https://github.com/nextcloud/integration_davc/commit/5414102f24560e7c53987879db8febc7f6328ef1))
 * linting ([aa0674f](https://github.com/nextcloud/integration_davc/commit/aa0674f727dcac741b2dc3dfdb85da25b8b3f121))
 * migration class name ([ce9ef93](https://github.com/nextcloud/integration_davc/commit/ce9ef935b4ab3fc193c7ffff285b2a0f40e87fd7))
-* nothing ([d23c244](https://github.com/nextcloud/integration_davc/commit/d23c2443a13d6d8bc9c1855a5d78ab7fe3f79f39))
-* nothing again ([4ed8ad2](https://github.com/nextcloud/integration_davc/commit/4ed8ad21ba7ce5f2c79c4d9282fcd1b0a150710e))
 * object creation logic ([a35e23e](https://github.com/nextcloud/integration_davc/commit/a35e23ece4344d8a86fa52dc10c7e5f1348d4b8e))
 * remove json basic auth option ([11000d3](https://github.com/nextcloud/integration_davc/commit/11000d3772dc5839fbab51c1ece4d6108ed32dbe))
 * remove mail related features ([42204ba](https://github.com/nextcloud/integration_davc/commit/42204ba12bb6554784225b49b6fe07bc08885cf9))
@@ -91,10 +159,7 @@
 * table calendar table name ([15f7124](https://github.com/nextcloud/integration_davc/commit/15f71242c221939a8c9df7ebd0941bd6dac9912b))
 * translation and wording ([13f0013](https://github.com/nextcloud/integration_davc/commit/13f0013d5014cd0b7ad8beceb231acb57b5dce22))
 * translations and date formatting ([b48089f](https://github.com/nextcloud/integration_davc/commit/b48089fe3b8e50cef1baefb1d4dff37b1d290056))
-* try to use current-user-privilege-set for permissions ([eb3abff](https://github.com/nextcloud/integration_davc/commit/eb3abff2b2c5d141e6d62be5d2e3e05c03d0d123))
-* type Bool and also NotNull ([4fd49b1](https://github.com/nextcloud/integration_davc/commit/4fd49b1fbd21d3a17cda205c784dc6a5b30289ad))
 * types ([0e9211f](https://github.com/nextcloud/integration_davc/commit/0e9211f22231942c2862f34b6ddb2dc8ea14cc7e))
-* use correct Content-Type for vCard PUT requests ([b723145](https://github.com/nextcloud/integration_davc/commit/b7231454c131bec56554f76e4e3c60aec9143705))
 * wording for translators ([61c1f8c](https://github.com/nextcloud/integration_davc/commit/61c1f8cbdd9abd2d8c1ea9a8bbf36265c0039f64))
 
 
@@ -104,10 +169,8 @@
 * add console commands ([a344e5b](https://github.com/nextcloud/integration_davc/commit/a344e5b5d4f6706ab33b1255f71d001796e8f68d))
 * add discovery templetes ([9ef1c19](https://github.com/nextcloud/integration_davc/commit/9ef1c197b53126758f4fe7b6aed174e1fc7d1955))
 * add HarmonizationL background job ([e8d6c53](https://github.com/nextcloud/integration_davc/commit/e8d6c53bd2cb2357d2a81c044498f5ab01ef0b38))
-* auto-select first account on settings page load ([6f7e848](https://github.com/nextcloud/integration_davc/commit/6f7e848e63104930cb26d80f02c544aa84d26ee7))
 * configurable harmonization interval ([2b74985](https://github.com/nextcloud/integration_davc/commit/2b7498530516c7e3d291f8555cd3bca73fa6e549))
 * connected calendars and addressbooks ([0572fa2](https://github.com/nextcloud/integration_davc/commit/0572fa2923903a53555b5236f2ab89df8bad397f))
-* data migration ([e248047](https://github.com/nextcloud/integration_davc/commit/e2480474653ab491561a01047802698755701497))
 * implement admin security enforcement ([440be33](https://github.com/nextcloud/integration_davc/commit/440be33d2cf0615afb3cc0fcb485431cb8ebc9db))
 * implement bulk remote retrieve ([ef5bd29](https://github.com/nextcloud/integration_davc/commit/ef5bd295019217c70d06b5bc116b21042e2dd7ca))
 * implement collection listing and fetching ([103efd4](https://github.com/nextcloud/integration_davc/commit/103efd483366239170281fb0df80435ccfdfbfed))
@@ -115,8 +178,6 @@
 * implement hybrid read write ([64ebcc0](https://github.com/nextcloud/integration_davc/commit/64ebcc058f5e31a1af10bc84d2a0e7d13b35a6e8))
 * implement initial connection discovery ([3fb54c3](https://github.com/nextcloud/integration_davc/commit/3fb54c3b93e938b13ba728d3b58aa798230f21d2))
 * implement logging and etags ([c916016](https://github.com/nextcloud/integration_davc/commit/c916016b3acf4d30e5eb9d5f8af63b2fffdebe04))
-* improve dns record discovery ([2da730d](https://github.com/nextcloud/integration_davc/commit/2da730dd3e1b7b33d66383ceeb1f38ecf1bdaf83))
 * improve read me ([0f84d36](https://github.com/nextcloud/integration_davc/commit/0f84d366b5d6acfc3fccc8c83a332a00d128f776))
-* mirror calendar component set ([bb1f510](https://github.com/nextcloud/integration_davc/commit/bb1f51001fafe1d2689d24c0ec23c153d07ff590))
 * permissions ([8afadfb](https://github.com/nextcloud/integration_davc/commit/8afadfb41c591ba37063cfe196a0d96a45b0060a))
 * use Constants ([79b1535](https://github.com/nextcloud/integration_davc/commit/79b15359d6d41fe6aecf2f3e3de71c4d8e3fa512))
