@@ -283,19 +283,23 @@ jobs:
 
     env:
       STALWART_ADMIN_PWD: adminpassword
+      STALWART_URL: http://localhost:10080
       DAV_PROTOCOL: http
       DAV_HOST: localhost
       DAV_PORT: 10080
       DAV_PATH: /.well-known/caldav
       DAV_DOMAIN: example.com
       DAV_USERNAME: user1@example.com
-      DAV_PASSWORD: mysecretpassword
+      # Must satisfy Stalwart's default zxcvbn password policy
+      DAV_PASSWORD: violet-harbor-cactus-lantern
 
     services:
       mail-stalwart-service:
         image: stalwartlabs/stalwart:v1.1.0
         env:
-          STALWART_ADMIN_PASSWORD: ${{ env.STALWART_ADMIN_PWD }}
+          STALWART_RECOVERY_ADMIN: admin:${{ env.STALWART_ADMIN_PWD }}
+          # Base URL of the advertised discovery URLs, otherwise https://<defaultHostname> on port 443
+          STALWART_PUBLIC_URL: ${{ env.STALWART_URL }}
         ports:
           - 10080:8080
           - 10025:25
@@ -310,31 +314,41 @@ jobs:
     name: DAV Integration SQLite PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}
 
     steps:
-      - name: Wait for dav server admin API
+      - name: Provision dav server
+        env:
+          STALWART_CONTAINER: ${{ job.services.mail-stalwart-service.id }}
         run: |
-          for attempt in $(seq 1 30); do
-            if curl -sf -m 5 http://localhost:10080/login >/dev/null 2>&1; then
-              exit 0
-            fi
+          set -euo pipefail
+          jmap() {
+            jq -nc --argjson call "$1" '{using: ["urn:ietf:params:jmap:core", "urn:stalwart:jmap"], methodCalls: [$call]}' \
+              | curl -sSf -u "admin:$STALWART_ADMIN_PWD" -H 'Content-Type: application/json' -d @- "$STALWART_URL/jmap/" \
+              | jq -e '.methodResponses[0] | if .[0] == "error" or ((.[1].notCreated // .[1].notUpdated // {}) | length > 0) then error(tojson) else .[1] end'
+          }
+          wait_for() {
+            timeout 120 sh -c "until curl -sf '$1' > /dev/null; do sleep 2; done"
+          }
 
-            if [ "$attempt" -eq 30 ]; then
-              echo 'Stalwart admin API did not become ready in time.' >&2
-              exit 1
-            fi
+          # A fresh server starts in bootstrap mode and only accepts the Bootstrap object
+          wait_for "$STALWART_URL/healthz/live"
+          jmap "$(jq -nc --arg domain "$DAV_DOMAIN" '["x:Bootstrap/set", {"update": {"singleton": {
+            "defaultHostname": ("mail." + $domain),
+            "defaultDomain": $domain,
+            "requestTlsCertificate": false,
+            "generateDkimKeys": false,
+            "tracer": {"@type": "Stdout"}
+          }}}, "0"]')"
 
-            sleep 2
-          done
+          # The configuration written by the bootstrap is only loaded on restart
+          docker restart "$STALWART_CONTAINER"
+          wait_for "$STALWART_URL/healthz/ready"
 
-      - name: Create domain and account in dav server
-        run: |
-          curl -sf -X POST http://localhost:10080/api/principal \
-            -u "admin:${{ env.STALWART_ADMIN_PWD }}" \
-            -H 'Content-Type: application/json' \
-            -d '{"type":"domain","name":"${{ env.DAV_DOMAIN }}"}'
-          curl -sf -X POST http://localhost:10080/api/principal \
-            -u "admin:${{ env.STALWART_ADMIN_PWD }}" \
-            -H 'Content-Type: application/json' \
-            -d '{"type":"individual","name":"${{ env.DAV_USERNAME }}","secrets":["${{ env.DAV_PASSWORD }}"],"emails":["${{ env.DAV_USERNAME }}"],"roles":["user"]}'
+          domain_id=$(jmap "$(jq -nc --arg domain "$DAV_DOMAIN" '["x:Domain/query", {"filter": {"name": $domain}}, "0"]')" | jq -er '.ids[0]')
+          jmap "$(jq -nc --arg domain "$domain_id" --arg name "${DAV_USERNAME%@*}" --arg pwd "$DAV_PASSWORD" '["x:Account/set", {"create": {"u1": {
+            "@type": "User",
+            "name": $name,
+            "domainId": $domain,
+            "credentials": {"0": {"@type": "Password", "secret": $pwd}}
+          }}}, "0"]')"
 
       - name: Set up DNS for DAV discovery
         run: |
@@ -411,6 +425,10 @@ jobs:
       - name: Run tests
         working-directory: apps/${{ env.APP_NAME }}
         run: composer run test:integration:dav
+
+      - name: Print dav server logs
+        if: ${{ failure() }}
+        run: docker logs ${{ job.services.mail-stalwart-service.id }}
 
   summary:
     permissions:
