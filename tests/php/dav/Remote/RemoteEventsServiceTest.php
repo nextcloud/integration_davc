@@ -54,6 +54,14 @@ class RemoteEventsServiceTest extends TestCase {
 		$this->service->initialize($this->client);
 	}
 
+	/**
+	 * Payloads read back from a multistatus response lose CR characters the server did not escape,
+	 * as XML parsers normalize line endings.
+	 */
+	private function assertSameIgnoringLineEndings(string $expected, ?string $actual): void {
+		$this->assertSame(str_replace("\r\n", "\n", $expected), str_replace("\r\n", "\n", (string)$actual));
+	}
+
 	private function requiredEnv(string $key): string {
 		$value = getenv($key);
 		if ($value === false || $value === '') {
@@ -180,7 +188,7 @@ class RemoteEventsServiceTest extends TestCase {
 			$this->assertSame($resourcePath, $fetchedEntity->remoteEntityId);
 			$this->assertIsString($fetchedEntity->remoteSignature);
 			$this->assertNotSame('', $fetchedEntity->remoteSignature);
-			$this->assertSame($payload, $fetchedEntity->data);
+			$this->assertSameIgnoringLineEndings($payload, $fetchedEntity->data);
 		} finally {
 			if ($created) {
 				try {
@@ -243,14 +251,14 @@ class RemoteEventsServiceTest extends TestCase {
 			$this->assertSame($firstResourcePath, $fetchedEntities[$firstResourcePath]->remoteEntityId);
 			$this->assertIsString($fetchedEntities[$firstResourcePath]->remoteSignature);
 			$this->assertNotSame('', $fetchedEntities[$firstResourcePath]->remoteSignature);
-			$this->assertSame($firstPayload, $fetchedEntities[$firstResourcePath]->data);
+			$this->assertSameIgnoringLineEndings($firstPayload, $fetchedEntities[$firstResourcePath]->data);
 
 			$this->assertInstanceOf(Entity::class, $fetchedEntities[$secondResourcePath]);
 			$this->assertSame($calendar->remoteId, $fetchedEntities[$secondResourcePath]->remoteCollectionId);
 			$this->assertSame($secondResourcePath, $fetchedEntities[$secondResourcePath]->remoteEntityId);
 			$this->assertIsString($fetchedEntities[$secondResourcePath]->remoteSignature);
 			$this->assertNotSame('', $fetchedEntities[$secondResourcePath]->remoteSignature);
-			$this->assertSame($secondPayload, $fetchedEntities[$secondResourcePath]->data);
+			$this->assertSameIgnoringLineEndings($secondPayload, $fetchedEntities[$secondResourcePath]->data);
 		} finally {
 			foreach ($createdResourcePaths as $createdResourcePath) {
 				try {
@@ -376,7 +384,7 @@ class RemoteEventsServiceTest extends TestCase {
 
 			$this->assertArrayHasKey($resourcePath, $fetchedResponses);
 			$this->assertSame(200, $fetchedResponses[$resourcePath]['status']);
-			$this->assertSame($payload, $fetchedResponses[$resourcePath]['payload']);
+			$this->assertSameIgnoringLineEndings($payload, $fetchedResponses[$resourcePath]['payload']);
 			$this->assertSame($createdEntity->remoteSignature, $fetchedResponses[$resourcePath]['etag']);
 		} finally {
 			if ($created) {
@@ -439,7 +447,7 @@ class RemoteEventsServiceTest extends TestCase {
 
 			$this->assertArrayHasKey($resourcePath, $fetchedResponses);
 			$this->assertSame(200, $fetchedResponses[$resourcePath]['status']);
-			$this->assertSame($updatedPayload, $fetchedResponses[$resourcePath]['payload']);
+			$this->assertSameIgnoringLineEndings($updatedPayload, $fetchedResponses[$resourcePath]['payload']);
 			$this->assertSame($modifiedEntity->remoteSignature, $fetchedResponses[$resourcePath]['etag']);
 		} finally {
 			if ($created) {
