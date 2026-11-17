@@ -28,7 +28,7 @@ OC.L10N.register(
     "Cancel" : "Abbrechen",
     "Save" : "Speichern",
     "Connection" : "Verbindung",
-    "Synchronization was last started on {0} and finished on {1}" : "Synchronisierung wurde zuletzt am {0} gestartet und am {1}beendet",
+    "Synchronization was last started on {0} and finished on {1}" : "Synchronisierung wurde zuletzt am {0} gestartet und am {1} beendet",
     "Contacts" : "Kontakte",
     "Select the contacts collection(s) you wish to synchronize by using the toggle" : "Wähle die Kontaktesammlung(en) aus, die du durch die Verwendung des Schalters synchronisieren möchtest.",
     "The contacts app is either disabled or not installed. Please contact your administrator to install or enable the app" : "Die Kontakte-App ist entweder deaktiviert oder nicht installiert. Bitte an die Administration wenden, um die App zu installieren oder zu aktivieren.",
