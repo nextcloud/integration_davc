@@ -182,7 +182,7 @@ async function dismissMigration(): Promise<void> {
 						:clearable="false" />
 				</div>
 				<NcCheckboxRadioSwitch type="switch" :modelValue="overwrite" @update:modelValue="overwrite = $event">
-					{{ t('integration_davc', 'Overwrite existing objects with a matching id instead of skipping them') }}
+					{{ t('integration_davc', 'Overwrite existing objects with a matching ID instead of skipping them') }}
 				</NcCheckboxRadioSwitch>
 			</div>
 
