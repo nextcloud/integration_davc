@@ -80,7 +80,6 @@ OC.L10N.register(
     "Direction" : "Treo",
     "External collection" : "Bailiúchán seachtrach",
     "Internal collection" : "Bailiúchán inmheánach",
-    "Overwrite existing objects with a matching id instead of skipping them" : "Scríobh réada atá ann cheana le haitheantas comhoiriúnach in ionad iad a scipeáil",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Ní ritheann an tseirbhís seo ach imirce amháin ag an am. Téann sé ar aghaidh sa chúlra uair amháin in aghaidh timthriall cron, rud a d'fhéadfadh roinnt nóiméad a thógáil — bíodh leisce ort an dialóg seo a dhúnadh agus seiceáil ar ais níos déanaí.",
     "Status: {status}" : "Stádas: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "Ón seiceáil dheireanach: próiseáilte {offset} (cruthaithe: {created}, nuashonraithe: {updated}, scipeáilte: {skipped}, earráidí: {errors})",

@@ -80,7 +80,6 @@ OC.L10N.register(
     "Direction" : "Направление",
     "External collection" : "Внешняя коллекция",
     "Internal collection" : "Внутренняя коллекция",
-    "Overwrite existing objects with a matching id instead of skipping them" : "Перезаписывать существующие объекты с таким же ID, а не пропускать их",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Служба выполняет не больше одного переноса за раз. Перенос идёт в фоновом режиме и продвигается примерно раз за цикл cron, на что могут уйти несколько минут. Можно закрыть это окно и вернуться позже.",
     "Status: {status}" : "Состояние: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "По данным последней проверки: обработано {offset} (создано: {created}, обновлено: {updated}, пропущено: {skipped}, ошибок: {errors})",

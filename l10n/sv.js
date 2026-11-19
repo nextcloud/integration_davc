@@ -80,7 +80,6 @@ OC.L10N.register(
     "Direction" : "Riktning",
     "External collection" : "Extern samling",
     "Internal collection" : "Intern samling",
-    "Overwrite existing objects with a matching id instead of skipping them" : "Skriv över befintliga objekt med ett matchande ID i stället för att hoppa över dem",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Den här tjänsten kör bara en migrering åt gången. Den går framåt i bakgrunden ungefär en gång per cron-körning, vilket kan ta flera minuter — du kan stänga dialogrutan och kontrollera igen senare.",
     "Status: {status}" : "Status: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "Vid senaste kontrollen: bearbetade {offset} (skapade: {created}, uppdaterade: {updated}, överhoppade: {skipped}, fel: {errors})",

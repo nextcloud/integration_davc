@@ -78,7 +78,6 @@
     "Direction" : "Yön",
     "External collection" : "Dış derleme",
     "Internal collection" : "İç derleme",
-    "Overwrite existing objects with a matching id instead of skipping them" : "Var olan nesneler ile eşleşen kimlikler atlanmasın üzerine yazılsın",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Bu hizmet aynı anda yalnızca bir aktarım yapabilir. Arka planda her zamanlanmış görev döngüsünde kabaca bir kez ilerler, bu da birkaç dakika sürebilir. Bu iletişim kutusunu kapatabilir ve daha sonra yeniden bakabilirsiniz.",
     "Status: {status}" : "Durum: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "Son denetime göre: İşlenen: {offset} (oluşturulan: {created}, güncellenen: {updated}, atlanan: {skipped}, hatalar: {errors})",

@@ -80,7 +80,6 @@ OC.L10N.register(
     "Direction" : "Richtung",
     "External collection" : "Externe Sammlung",
     "Internal collection" : "Interne Sammlung",
-    "Overwrite existing objects with a matching id instead of skipping them" : "Vorhandene Objekte mit einer passenden ID überschreiben, anstatt sie zu überspringen",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Dieser Dienst führt jeweils nur eine Migration aus. Es schreitet etwa einmal pro Cron-Zyklus im Hintergrund voran, was mehrere Minuten dauern kann — Sie können diesen Dialog schließen und später noch einmal vorbeischauen.",
     "Status: {status}" : "Status: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "Stand der letzten Prüfung: verarbeitet {offset} (erstellt: {created}, aktualisiert: {updated}, übersprungen: {skipped}, Fehler: {errors})",

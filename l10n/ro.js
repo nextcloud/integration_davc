@@ -80,7 +80,6 @@ OC.L10N.register(
     "Direction" : "Direcție",
     "External collection" : "Colecție externă",
     "Internal collection" : "Colecție internă",
-    "Overwrite existing objects with a matching id instead of skipping them" : "Suprascrie obiectele existente cu un ID identic, în loc să le omiți",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Acest serviciu rulează o singură migrare la un moment dat. Progresează în fundal aproximativ o dată pe ciclu cron, ceea ce poate dura câteva minute — poți închide această fereastră și reveni mai târziu.",
     "Status: {status}" : "Stare: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "La ultima verificare: procesate {offset} (create: {created}, actualizate: {updated}, omise: {skipped}, erori: {errors})",
