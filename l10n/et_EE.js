@@ -80,6 +80,7 @@ OC.L10N.register(
     "Direction" : "Suund",
     "External collection" : "Väline andmekogu",
     "Internal collection" : "Sisene andmekogu",
+    "Overwrite existing objects with a matching ID instead of skipping them" : "Kui kirje tunnus klapib, siis vahelejätmise asemel kirjuta olemasolevad objektid üle",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "See teenus käivitab ühe ümberkolimise korraga. Töö edeneb taustal umbes üks kord iga croni käivituskorraga ja selleks võib kuluda mitu minutit. Sa võid selle vaate kenasti sulgeda ja hiljem uuesti kontrollida.",
     "Status: {status}" : "Olek: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "Peale viimast kontrollimist: töödeldud {offset} (loodud: {created}, uuendatud: {updated}, vahelejäetud: {skipped}, vigu: {errors})",
