@@ -80,6 +80,7 @@ OC.L10N.register(
     "Direction" : "方向",
     "External collection" : "外部集合",
     "Internal collection" : "內部集合",
+    "Overwrite existing objects with a matching ID instead of skipping them" : "以相同 ID 覆寫現有物件，而不是略過它們",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "此服務一次只會執行一項遷移。遷移會約每個 cron 週期於背景推進一次，可能需時數分鐘——你可先關閉此對話框，稍後再回來查看。",
     "Status: {status}" : "狀態：{status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "截至上次檢查：已處理 {offset}（已建立：{created}、已更新：{updated}、已略過：{skipped}、錯誤：{errors}）",

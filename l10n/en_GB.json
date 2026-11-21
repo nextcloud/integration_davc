@@ -78,6 +78,7 @@
     "Direction" : "Direction",
     "External collection" : "External collection",
     "Internal collection" : "Internal collection",
+    "Overwrite existing objects with a matching ID instead of skipping them" : "Overwrite existing objects with a matching ID instead of skipping them",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later.",
     "Status: {status}" : "Status: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})",

@@ -4,6 +4,7 @@ OC.L10N.register(
     "Connected accounts" : "Account connessi",
     "Edit" : "Modifica",
     "Delete" : "Elimina",
+    "Email domain" : "Dominio email",
     "Cancel" : "Annulla",
     "Save" : "Salva",
     "Contacts" : "Contatti",
