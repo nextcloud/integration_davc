@@ -80,6 +80,7 @@ OC.L10N.register(
     "Direction" : "Smer",
     "External collection" : "Externá kolekcia",
     "Internal collection" : "Interná kolekcia",
+    "Overwrite existing objects with a matching ID instead of skipping them" : "Prepísať existujúce objekty so zhodným ID namiesto ich preskočenia",
     "This service only runs one migration at a time. It advances in the background roughly once per cron cycle, which can take several minutes — feel free to close this dialog and check back later." : "Táto služba spúšťa naraz iba jednu migráciu. Pokračuje na pozadí približne raz za cyklus cron, čo môže trvať niekoľko minút – toto dialógové okno môžete pokojne zavrieť a skontrolovať stav neskôr.",
     "Status: {status}" : "Stav: {status}",
     "As of last check: processed {offset} (created: {created}, updated: {updated}, skipped: {skipped}, errors: {errors})" : "Stav pri poslednej kontrole: spracované {offset} (vytvorené: {created}, aktualizované: {updated}, preskočené: {skipped}, chyby: {errors})",
