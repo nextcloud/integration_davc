@@ -21,7 +21,7 @@
     <repository>https://github.com/nextcloud/integration_davc</repository>
     <screenshot>https://github.com/nextcloud/integration_davc</screenshot>
     <dependencies>
-        <php min-version="8.2" max-version="8.5"  min-int-size="64" />
+        <php min-version="8.2" max-version="8.6"  min-int-size="64" />
         <nextcloud min-version="32" max-version="36"/>
     </dependencies>
     <commands>

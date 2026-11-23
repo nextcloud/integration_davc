@@ -24,9 +24,9 @@ jobs:
   matrix:
     runs-on: ubuntu-latest-low
     outputs:
-      php-version: '["8.3","8.4","8.5"]'
+      php-version: '["8.3","8.4","8.5","8.6"]'
       php-min: '8.3'
-      php-max: '8.5'
+      php-max: '8.6'
       server-max: ${{ steps.versions.outputs.branches-max-list }}
     steps:
       - name: Checkout app
