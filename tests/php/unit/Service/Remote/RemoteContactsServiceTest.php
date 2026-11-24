@@ -59,6 +59,29 @@ class RemoteContactsServiceTest extends TestCase {
 		$this->assertSame([], $delta->deletions->getArrayCopy());
 	}
 
+	public function testEntityDeltaClassifiesUnsupportedPropertiesAndDeletions(): void {
+		$this->client->method('capabilities')->willReturnMap([
+			['dav', ['sync-collection']],
+			['allow', ['REPORT']],
+		]);
+		$this->client->method('report')->willReturn([
+			self::COLLECTION . 'changed.vcf' => [
+				200 => [RemoteClient::DAV_ETAG => '"changed"'],
+				404 => [RemoteClient::DAV_RESOURCE_TYPE => null],
+			],
+			self::COLLECTION . 'deleted-status.vcf' => [],
+			self::COLLECTION . 'deleted-props.vcf' => [
+				404 => [RemoteClient::DAV_ETAG => null],
+			],
+			'token' => 'sync-token-2',
+		]);
+
+		$delta = $this->service->entityDelta(self::COLLECTION, 'sync-token-1');
+
+		$this->assertSame([self::COLLECTION . 'changed.vcf'], $delta->modifications->getArrayCopy());
+		$this->assertSame([self::COLLECTION . 'deleted-status.vcf', self::COLLECTION . 'deleted-props.vcf'], $delta->deletions->getArrayCopy());
+	}
+
 	private function members(): array {
 		return [
 			self::COLLECTION => [200 => [
