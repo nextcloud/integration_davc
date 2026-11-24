@@ -129,7 +129,7 @@ class RemoteContactsService {
 		$list = [];
 		foreach ($resources as $identifier => $resource) {
 			// Some server implementations include all collection members in the response of a sync-collection report on the collection itself
-			if (isset($resource[200][RemoteClient::DAV_RESOURCE_TYPE]) && $resource[200][RemoteClient::DAV_RESOURCE_TYPE] !== null) {
+			if (RemoteConvert::isCollection($resource[200][RemoteClient::DAV_RESOURCE_TYPE] ?? null)) {
 				continue;
 			}
 
@@ -248,7 +248,7 @@ class RemoteContactsService {
 				}
 
 				// Some server implementations include all collection members in the response of a sync-collection report on the collection itself
-				if (isset($response[200][RemoteClient::DAV_RESOURCE_TYPE]) && $response[200][RemoteClient::DAV_RESOURCE_TYPE] !== null) {
+				if (RemoteConvert::isCollection($response[200][RemoteClient::DAV_RESOURCE_TYPE] ?? null)) {
 					continue;
 				}
 

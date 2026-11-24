@@ -12,8 +12,19 @@ namespace OCA\DAVC\Tests\Unit\Service\Remote;
 use OCA\DAVC\Service\Remote\RemoteClient;
 use OCA\DAVC\Service\Remote\RemoteConvert;
 use PHPUnit\Framework\TestCase;
+use Sabre\DAV\Xml\Property\ResourceType;
 
 class RemoteConvertTest extends TestCase {
+
+	public function testIsCollectionDetectsCollectionResourceType(): void {
+		$this->assertTrue(RemoteConvert::isCollection(new ResourceType([RemoteClient::DAV_COLLECTION, RemoteClient::CALDAV_CALENDAR_TYPE])));
+	}
+
+	public function testIsCollectionRejectsNonCollectionResourceType(): void {
+		$this->assertFalse(RemoteConvert::isCollection(null));
+		$this->assertFalse(RemoteConvert::isCollection(new ResourceType([])));
+		$this->assertFalse(RemoteConvert::isCollection(''));
+	}
 
 	public function testExtractSupportedComponentsReturnsComponentNames(): void {
 		$value = [

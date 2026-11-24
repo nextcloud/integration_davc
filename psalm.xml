@@ -44,6 +44,7 @@
 				<referencedClass name="Sabre\VObject\Component\VCard" />
 				<referencedClass name="Sabre\VObject\Reader" />
 				<referencedClass name="Sabre\DAV\Xml\Service" />
+				<referencedClass name="Sabre\DAV\Xml\Property\ResourceType" />
 				<referencedClass name="Sabre\Xml\ParseException" />
 				<referencedClass name="GuzzleHttp\Psr7\UriResolver" />
 			</errorLevel>

@@ -120,11 +120,15 @@ class ContactsService {
 			return $statistics;
 		}
 
-		// retrieve a delta of remote entity variations
-		try {
-			$remoteEntityDelta = $this->remoteContactsService->entityDelta($remoteCollectionId, $remoteCollectionSignature, 'B');
-		} catch (\RuntimeException) {
+		// retrieve a delta of remote entity variations, without a previous state compare full entity lists
+		if ($remoteCollectionSignature === '') {
 			$remoteEntityDelta = $this->determineRemoteDelta($collection);
+		} else {
+			try {
+				$remoteEntityDelta = $this->remoteContactsService->entityDelta($remoteCollectionId, $remoteCollectionSignature, 'B');
+			} catch (\RuntimeException) {
+				$remoteEntityDelta = $this->determineRemoteDelta($collection);
+			}
 		}
 		// process remote mutations
 		$alterations = array_unique(

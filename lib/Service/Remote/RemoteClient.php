@@ -32,6 +32,7 @@ class RemoteClient {
 	public const DAV_USER_PRINCIPAL = '{DAV:}current-user-principal';
 	public const DAV_PRINCIPAL_URL = '{DAV:}principal-URL';
 	public const DAV_RESOURCE_TYPE = '{DAV:}resourcetype';
+	public const DAV_COLLECTION = '{DAV:}collection';
 	public const DAV_DISPLAYNAME = '{DAV:}displayname';
 	public const DAV_OWNER = '{DAV:}owner';
 	public const DAV_ACL = '{DAV:}acl';

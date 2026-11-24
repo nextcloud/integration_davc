@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\DAVC\Service\Remote;
 
+use Sabre\DAV\Xml\Property\ResourceType;
+
 class RemoteConvert {
 
 	public static function extractUrlPath(?string $url): ?string {
@@ -86,6 +88,13 @@ class RemoteConvert {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Determine if a parsed DAV resourcetype property marks a collection
+	 */
+	public static function isCollection(mixed $resourceType): bool {
+		return $resourceType instanceof ResourceType && $resourceType->is(RemoteClient::DAV_COLLECTION);
 	}
 
 	/**
