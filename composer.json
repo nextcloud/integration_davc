@@ -13,7 +13,7 @@
         "bamarni/composer-bin-plugin": "^1.8",
         "nextcloud/coding-standard": "^1.5.0",
         "nextcloud/ocp": "^35.0",
-        "psalm/phar": "^6.16"
+        "psalm/phar": "^7.0"
     },
     "config": {
         "platform": {
