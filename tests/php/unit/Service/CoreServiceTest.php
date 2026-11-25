@@ -10,13 +10,17 @@ declare(strict_types=1);
 namespace OCA\DAVC\Tests\Unit\Service;
 
 use OCA\DAVC\Constants;
+use OCA\DAVC\Models\Calendars\Collection;
 use OCA\DAVC\Service\ConfigurationService;
 use OCA\DAVC\Service\CoreService;
 use OCA\DAVC\Service\Local\LocalFactory;
 use OCA\DAVC\Service\Remote\RemoteClient;
+use OCA\DAVC\Service\Remote\RemoteEventsService;
 use OCA\DAVC\Service\Remote\RemoteFactory;
 use OCA\DAVC\Service\ServicesService;
 use OCA\DAVC\Service\ServicesTemplateService;
+use OCA\DAVC\Store\Local\CollectionEntity;
+use OCA\DAVC\Store\Local\EventStore;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use OCP\BackgroundJob\IJobList;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -245,5 +249,95 @@ class CoreServiceTest extends TestCase {
 		$connectedService = $this->service->connectAccount('user-1', $configuration);
 
 		$this->assertTrue((bool)$connectedService->getLocationSecurity());
+	}
+
+	public function testLocalCollectionsDepositUpdatesColorOfExistingCalendar(): void {
+		$store = $this->prepareEventsDeposit();
+		$collection = $this->calendarCollection('user-1', '#111111');
+		$store->expects($this->once())->method('collectionFetch')->with(5)->willReturn($collection);
+		$store->expects($this->once())
+			->method('collectionModify')
+			->with($this->callback(static fn (CollectionEntity $entity): bool => $entity->getColor() === '#22aa33'))
+			->willReturnArgument(0);
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => true, 'color' => '#22aa33'],
+		]);
+	}
+
+	public function testLocalCollectionsDepositKeepsUnchangedCalendarColor(): void {
+		$store = $this->prepareEventsDeposit();
+		$store->method('collectionFetch')->willReturn($this->calendarCollection('user-1', '#22aa33'));
+		$store->expects($this->never())->method('collectionModify');
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => true, 'color' => '#22aa33'],
+		]);
+	}
+
+	public function testLocalCollectionsDepositIgnoresInvalidCalendarColor(): void {
+		$store = $this->prepareEventsDeposit();
+		$store->expects($this->never())->method('collectionFetch');
+		$store->expects($this->never())->method('collectionModify');
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => true, 'color' => 'red; background: url(x)'],
+		]);
+	}
+
+	public function testLocalCollectionsDepositDoesNotChangeColorOfOtherUsersCalendar(): void {
+		$store = $this->prepareEventsDeposit();
+		$store->method('collectionFetch')->willReturn($this->calendarCollection('user-2', '#111111'));
+		$store->expects($this->never())->method('collectionModify');
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => true, 'color' => '#22aa33'],
+		]);
+	}
+
+	public function testLocalCollectionsDepositPrefersPickedColorForNewCalendar(): void {
+		$remoteCollection = new Collection();
+		$remoteCollection->label = 'Personal';
+		$remoteCollection->color = '#111111';
+		$remoteEventsService = $this->createMock(RemoteEventsService::class);
+		$remoteEventsService->method('collectionFetch')->willReturn($remoteCollection);
+		$this->remoteFactory->method('eventsService')->willReturn($remoteEventsService);
+
+		$store = $this->prepareEventsDeposit('/calendars/user/');
+		$store->method('collectionFresh')->willReturnCallback(static fn (): CollectionEntity => new CollectionEntity());
+		$store->expects($this->once())
+			->method('collectionCreate')
+			->with($this->callback(static fn (CollectionEntity $entity): bool => $entity->getColor() === '#22aa33'))
+			->willReturnArgument(0);
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => null, 'ccid' => '/calendars/user/personal/', 'label' => 'Personal', 'enabled' => true, 'color' => '#22aa33'],
+		]);
+	}
+
+	private function prepareEventsDeposit(?string $calendarHome = null): EventStore&MockObject {
+		$service = new ServiceEntity();
+		$service->setUid('user-1');
+		$this->servicesService->method('fetch')->with(3)->willReturn($service);
+
+		$remoteClient = $this->createMock(RemoteClient::class);
+		$remoteClient->method('getCalendarHome')->willReturn($calendarHome);
+		$this->remoteFactory->method('freshClient')->willReturn($remoteClient);
+
+		$this->configurationService->method('isContactsAppAvailable')->willReturn(false);
+		$this->configurationService->method('isCalendarAppAvailable')->willReturn(true);
+
+		$store = $this->createMock(EventStore::class);
+		$this->localFactory->method('eventsStore')->willReturn($store);
+
+		return $store;
+	}
+
+	private function calendarCollection(string $uid, string $color): CollectionEntity {
+		$collection = new CollectionEntity();
+		$collection->setId(5);
+		$collection->setUid($uid);
+		$collection->setColor($color);
+		return $collection;
 	}
 }

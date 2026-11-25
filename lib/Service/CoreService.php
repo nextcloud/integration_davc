@@ -493,15 +493,34 @@ class CoreService {
 							$collection->setUuid(\OCA\DAVC\Utile\UUID::v4());
 							$collection->setPermissions($remoteCollection?->permissions);
 							$collection->setLabel('DavC: ' . ($remoteCollection?->label ?? $entry['label'] ?? 'Unknown'));
-							$collection->setColor($remoteCollection?->color ?? $entry['color'] ?? '#0055aa');
+							$collection->setColor($this->normalizeColor($entry['color'] ?? null) ?? $remoteCollection?->color ?? '#0055aa');
 							$collection->setComponents($remoteCollection?->components);
 							$collection->setVisible(true);
 							$id = $localStore->collectionCreate($collection);
+						} elseif (is_numeric($entry['id'])) {
+							$color = $this->normalizeColor($entry['color'] ?? null);
+							if ($color !== null) {
+								$collection = $localStore->collectionFetch((int)$entry['id']);
+								if ($collection !== null && $collection->getUid() === $uid && $collection->getColor() !== $color) {
+									$collection->setColor($color);
+									$localStore->collectionModify($collection);
+								}
+							}
 						}
 						break;
 				}
 			}
 		}
+	}
+
+	/**
+	 * Accept only hex colors (#rrggbb or #rrggbbaa) supplied by the client
+	 */
+	private function normalizeColor(mixed $color): ?string {
+		if (is_string($color) && preg_match('/^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/', $color) === 1) {
+			return $color;
+		}
+		return null;
 	}
 
 }

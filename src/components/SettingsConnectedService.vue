@@ -8,7 +8,7 @@ import type { Collection } from '../types/Collection.ts'
 import type { Service } from '../types/Service.ts'
 
 import { translate as t } from '@nextcloud/l10n'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
@@ -39,6 +39,7 @@ const props = defineProps<{
 	formatDate: (dt: number | undefined) => string
 	changeContactCorrelation: (rcid: string | null, enabled: boolean) => void
 	changeEventCorrelation: (rcid: string | null, enabled: boolean) => void
+	changeEventCorrelationColor: (rcid: string | null, color: string | undefined) => void
 }>()
 
 const emit = defineEmits<{
@@ -48,20 +49,6 @@ const emit = defineEmits<{
 }>()
 
 const showMigrationModal = ref<boolean>(false)
-
-function randomColor(): string {
-	return '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')
-}
-
-const selectedcolor = ref('')
-const color = computed({
-	get() {
-		return selectedcolor.value || randomColor()
-	},
-	set(value: string) {
-		selectedcolor.value = value
-	},
-})
 
 function establishedContactCorrelation(rcid: string | null): boolean {
 	if (!rcid) {
@@ -91,26 +78,20 @@ function establishedEventCorrelation(rcid: string | null): boolean {
 	return localCollection.enabled
 }
 
-function establishedContactCorrelationColor(ccid: string | null): string {
+function establishedContactCorrelationColor(ccid: string | null): string | undefined {
 	if (!ccid) {
-		return randomColor()
+		return undefined
 	}
 	const collection = props.contactsLocalCollections.find((item) => String(item.ccid) === String(ccid))
-	if (typeof collection !== 'undefined') {
-		return collection.color || randomColor()
-	}
-	return randomColor()
+	return collection?.color || undefined
 }
 
-function establishedEventCorrelationColor(ccid: string | null): string {
+function establishedEventCorrelationColor(ccid: string | null): string | undefined {
 	if (!ccid) {
-		return randomColor()
+		return undefined
 	}
 	const collection = props.eventsLocalCollections.find((item) => String(item.ccid) === String(ccid))
-	if (typeof collection !== 'undefined') {
-		return collection.color || randomColor()
-	}
-	return randomColor()
+	return collection?.color || undefined
 }
 
 function establishedContactCorrelationHarmonized(ccid: string | null): number {
@@ -209,9 +190,14 @@ function establishedEventCorrelationHarmonized(ccid: string | null): number {
 							type="switch"
 							:modelValue="establishedEventCorrelation(ritem.id)"
 							@update:modelValue="changeEventCorrelation(ritem.id, $event)" />
-						<NcColorPicker v-model="color" :advancedFields="true">
+						<NcColorPicker
+							v-if="establishedEventCorrelation(ritem.id)"
+							:modelValue="establishedEventCorrelationColor(ritem.id) ?? ''"
+							:advancedFields="true"
+							@update:modelValue="changeEventCorrelationColor(ritem.id, $event)">
 							<CalendarIcon :inline="true" :style="{ color: establishedEventCorrelationColor(ritem.id) }" />
 						</NcColorPicker>
+						<CalendarIcon v-else :inline="true" />
 						<label>
 							{{ ritem.label }}
 						</label>

@@ -296,6 +296,13 @@ function changeEventCorrelation(rcid: string | null, e: boolean): void {
 	}
 }
 
+function changeEventCorrelationColor(rcid: string | null, color: string | undefined): void {
+	const lCollection = eventsLocalCollections.value.find((i) => String(i.ccid) === String(rcid))
+	if (lCollection !== undefined && color) {
+		lCollection.color = color
+	}
+}
+
 </script>
 
 <template>
@@ -352,6 +359,7 @@ function changeEventCorrelation(rcid: string | null, e: boolean): void {
 			:formatDate="formatDate"
 			:changeContactCorrelation="changeContactCorrelation"
 			:changeEventCorrelation="changeEventCorrelation"
+			:changeEventCorrelationColor="changeEventCorrelationColor"
 			@save="runExclusive(modifyService)"
 			@harmonize="runExclusive(harmonizeService)"
 			@disconnect="runExclusive(disconnectService)" />
