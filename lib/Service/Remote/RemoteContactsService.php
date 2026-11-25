@@ -236,13 +236,9 @@ class RemoteContactsService {
 			}
 
 			foreach ($responses as $href => $response) {
-				// Some server implementations return no status for deleted items
-				if (!isset($response[200]) && !isset($response[404])) {
-					$delta->deletions->append((string)$href);
-					continue;
-				}
-				// Some server implementations return 404 for deleted items
-				if (isset($response[404])) {
+				// Deleted items are returned with a 404 status or no status, but never with found properties.
+				// Properties a server does not support are returned with a 404 status alongside the found ones.
+				if (!isset($response[200])) {
 					$delta->deletions->append((string)$href);
 					continue;
 				}
