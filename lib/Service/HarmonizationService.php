@@ -57,6 +57,10 @@ class HarmonizationService {
 		if (!$service->getEnabled() || !$service->getConnected()) {
 			return;
 		}
+		if (!$this->configurationService->isTransportPermitted($service->getLocationProtocol())) {
+			$this->logger->warning('Skipped Harmonization of service ' . $service->getId() . ' for ' . $service->getUid() . ', insecure (http) connections are not permitted by the administrator');
+			return;
+		}
 		// update harmonization state and start time
 		$service->setHarmonizationState(true);
 		$service->setHarmonizationStart(time());

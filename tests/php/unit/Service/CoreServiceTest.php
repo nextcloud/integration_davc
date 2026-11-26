@@ -34,6 +34,7 @@ class CoreServiceTest extends TestCase {
 	private IJobList&MockObject $jobList;
 
 	private ConfigurationService&MockObject $configurationService;
+	private bool $transportPermitted = true;
 
 	private ServicesService&MockObject $servicesService;
 
@@ -51,6 +52,7 @@ class CoreServiceTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->configurationService = $this->createMock(ConfigurationService::class);
+		$this->configurationService->method('isTransportPermitted')->willReturnCallback(fn (): bool => $this->transportPermitted);
 		$this->servicesService = $this->createMock(ServicesService::class);
 		$this->servicesTemplateService = $this->createMock(ServicesTemplateService::class);
 		$this->remoteFactory = $this->createMock(RemoteFactory::class);
@@ -198,7 +200,7 @@ class CoreServiceTest extends TestCase {
 			'location_protocol' => 'http',
 		];
 
-		$this->configurationService->method('getForbidInsecureHttp')->willReturn(true);
+		$this->transportPermitted = false;
 
 		$this->remoteFactory->expects($this->never())
 			->method('freshClient');
