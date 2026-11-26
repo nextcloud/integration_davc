@@ -13,6 +13,7 @@ use OCA\DAVC\AppInfo\Application;
 use OCA\DAVC\Service\ConfigurationService;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -109,6 +110,25 @@ class ConfigurationServiceTest extends TestCase {
 			->with(Application::APP_ID, 'forbid_insecure_http', '0');
 
 		$this->service->setForbidInsecureHttp(false);
+	}
+
+	public static function transportPermittedProvider(): array {
+		return [
+			'http forbidden' => ['1', 'http', false],
+			'http forbidden ignores case' => ['1', 'HTTP', false],
+			'https with http forbidden' => ['1', 'https', true],
+			'missing protocol with http forbidden' => ['1', null, true],
+			'http allowed' => ['0', 'http', true],
+		];
+	}
+
+	#[DataProvider('transportPermittedProvider')]
+	public function testIsTransportPermitted(string $forbidInsecureHttp, ?string $protocol, bool $expected): void {
+		$this->config->method('getAppValue')
+			->with(Application::APP_ID, 'forbid_insecure_http')
+			->willReturn($forbidInsecureHttp);
+
+		$this->assertSame($expected, $this->service->isTransportPermitted($protocol));
 	}
 
 	public function testDepositSystemNormalisesBooleansAndNumbers(): void {

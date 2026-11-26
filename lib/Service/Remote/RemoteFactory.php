@@ -31,6 +31,10 @@ class RemoteFactory {
 	 * Initialize remote data store client
 	 */
 	public function freshClient(ServiceEntity $service): RemoteClient {
+		if (!$this->configurationService->isTransportPermitted($service->getLocationProtocol())) {
+			throw new \RuntimeException('Insecure (http) connections are not permitted by the administrator.');
+		}
+
 		$client = new RemoteClient($this->clientService);
 		$client->configureTransportAgent(self::$clientTransportAgent);
 		$client->configureLocation(

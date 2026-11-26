@@ -398,6 +398,18 @@ class ConfigurationService {
 	}
 
 	/**
+	 * Determine if the administrator transport security policy permits connections using a protocol
+	 *
+	 * @param string|null $protocol connection protocol (e.g. http, https)
+	 *
+	 * @return bool
+	 */
+	public function isTransportPermitted(?string $protocol): bool {
+
+		return !$this->getForbidInsecureHttp() || strtolower((string)$protocol) !== 'http';
+	}
+
+	/**
 	 * Sets administrator transport security policy: forbid insecure (http) connections
 	 *
 	 * @param bool $enabled
