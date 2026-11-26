@@ -10,6 +10,9 @@ declare(strict_types=1);
 require dirname(__DIR__, 4) . '/tests/bootstrap.php';
 
 \OC::$composerAutoloader->addPsr4('OCA\\DAVC\\', dirname(__DIR__, 2) . '/lib');
+\OC::$composerAutoloader->addClassMap([
+	'OCA\\DAVC\\Tests\\Dav\\HarmonizationTestCase' => __DIR__ . '/dav/HarmonizationTestCase.php',
+]);
 
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
