@@ -17,6 +17,8 @@ use OCA\DAVC\Store\Common\Sort\ISort;
 use OCA\DAVC\Store\Common\Sort\SortBase;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
+use Psr\Log\LoggerInterface;
 
 class ServicesStore {
 
@@ -24,13 +26,51 @@ class ServicesStore {
 	protected string $_EntityTable = 'davc_services';
 	protected string $_EntityClass = ServiceEntity::class;
 
-	public function __construct(IDBConnection $store) {
+	/** columns holding credentials, which are stored encrypted */
+	public const SECURE_COLUMNS = ['bauth_secret', 'oauth_access_token', 'oauth_refresh_token'];
+
+	public function __construct(
+		IDBConnection $store,
+		private readonly ICrypto $crypto,
+		private readonly LoggerInterface $logger,
+	) {
 		$this->_Store = $store;
 	}
 
 	protected function toEntity(array $row): ServiceEntity {
 		unset($row['DOCTRINE_ROWNUM']); // remove doctrine/dbal helper column
+		foreach (self::SECURE_COLUMNS as $column) {
+			if (!isset($row[$column]) || $row[$column] === '') {
+				continue;
+			}
+			// a value that cannot be decrypted is discarded so the service stays manageable
+			try {
+				$row[$column] = $this->crypto->decrypt((string)$row[$column]);
+			} catch (\Exception $e) {
+				$this->logger->warning('Unable to decrypt ' . $column . ' of service ' . ($row['id'] ?? '') . ', the service needs to be reconnected', ['exception' => $e]);
+				$row[$column] = null;
+			}
+		}
 		return \call_user_func($this->_EntityClass . '::fromRow', $row);
+	}
+
+	/**
+	 * convert the updated fields of an entity to column values, credentials are encrypted
+	 *
+	 * @return array<string, mixed>
+	 */
+	protected function fromEntity(ServiceEntity $entity): array {
+		$values = [];
+		foreach (array_keys($entity->getUpdatedFields()) as $property) {
+			$column = $entity->propertyToColumn($property);
+			$getter = 'get' . ucfirst($property);
+			$value = $entity->$getter();
+			if (in_array($column, self::SECURE_COLUMNS, true) && is_string($value) && $value !== '') {
+				$value = $this->crypto->encrypt($value);
+			}
+			$values[$column] = $value;
+		}
+		return $values;
 	}
 
 	protected function fromFilter(IQueryBuilder $cmd, IFilter $filter): void {
@@ -147,10 +187,7 @@ class ServicesStore {
 		$cmd = $this->_Store->getQueryBuilder();
 		$cmd->insert($this->_EntityTable);
 		// assign values
-		foreach (array_keys($entity->getUpdatedFields()) as $property) {
-			$column = $entity->propertyToColumn($property);
-			$getter = 'get' . ucfirst($property);
-			$value = $entity->$getter();
+		foreach ($this->fromEntity($entity) as $column => $value) {
 			$cmd->setValue($column, $cmd->createNamedParameter($value));
 		}
 		// execute command
@@ -182,10 +219,7 @@ class ServicesStore {
 			->andWhere($cmd->expr()->eq('id', $cmd->createNamedParameter($entity->getId())));
 		// assign values
 		if (count($entity->getUpdatedFields())) {
-			foreach (array_keys($entity->getUpdatedFields()) as $property) {
-				$column = $entity->propertyToColumn($property);
-				$getter = 'get' . ucfirst($property);
-				$value = $entity->$getter();
+			foreach ($this->fromEntity($entity) as $column => $value) {
 				$cmd->set($column, $cmd->createNamedParameter($value));
 			}
 			// execute command
