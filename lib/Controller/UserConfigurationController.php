@@ -17,6 +17,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
@@ -69,6 +70,7 @@ class UserConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[UserRateLimit(limit: 10, period: 600)]
 	#[FrontpageRoute(verb: 'POST', url: '/service/connect')]
 	public function Connect(array $service): DataResponse {
 
@@ -121,6 +123,7 @@ class UserConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[UserRateLimit(limit: 5, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/service/harmonize')]
 	public function Harmonize(int $sid): DataResponse {
 

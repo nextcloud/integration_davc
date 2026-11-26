@@ -15,7 +15,9 @@ use OCA\DAVC\Service\CoreService;
 use OCA\DAVC\Service\HarmonizationService;
 use OCA\DAVC\Service\ServicesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\IRequest;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -90,6 +92,23 @@ class UserConfigurationControllerTest extends TestCase {
 
 		$this->assertSame(Http::STATUS_INTERNAL_SERVER_ERROR, $response->getStatus());
 		$this->assertSame('An internal error occurred', $response->getData());
+	}
+
+	public static function rateLimitedEndpointProvider(): array {
+		return [
+			'connect' => ['Connect', 10, 600],
+			'harmonize' => ['Harmonize', 5, 300],
+		];
+	}
+
+	#[DataProvider('rateLimitedEndpointProvider')]
+	public function testEndpointIsRateLimitedPerUser(string $method, int $limit, int $period): void {
+		$attributes = (new \ReflectionMethod(UserConfigurationController::class, $method))->getAttributes(UserRateLimit::class);
+
+		$this->assertCount(1, $attributes);
+		$rateLimit = $attributes[0]->newInstance();
+		$this->assertSame($limit, $rateLimit->getLimit());
+		$this->assertSame($period, $rateLimit->getPeriod());
 	}
 
 }

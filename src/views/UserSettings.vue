@@ -7,7 +7,7 @@
 import type { Collection } from '../types/Collection.ts'
 import type { Service } from '../types/Service.ts'
 
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translatePlural as n, translate as t } from '@nextcloud/l10n'
@@ -106,6 +106,10 @@ async function connectService(service: Service): Promise<void> {
 		remoteCollectionsFetch()
 		localCollectionsFetch()
 	} catch (error: unknown) {
+		if (isAxiosError(error) && error.response?.status === 429) {
+			showError(t('integration_davc', 'Too many connection attempts, please try again in a few minutes'))
+			return
+		}
 		showError(t('integration_davc', 'Failed to authenticate with server')
 			+ ': ' + getErrorResponseText(error))
 	}
@@ -150,6 +154,10 @@ async function harmonizeService(): Promise<void> {
 		await axios.post(uri, data)
 		showSuccess(t('integration_davc', 'Synchronized'))
 	} catch (error: unknown) {
+		if (isAxiosError(error) && error.response?.status === 429) {
+			showError(t('integration_davc', 'Synchronization was started too often, please try again in a few minutes'))
+			return
+		}
 		showError(t('integration_davc', 'Synchronization failed')
 			+ ': ' + getErrorResponseText(error))
 	}
