@@ -15,6 +15,7 @@ use OCA\DAVC\Service\Remote\RemoteFactory;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\Security\IRemoteHostValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -29,6 +30,7 @@ class RemoteFactoryTest extends TestCase {
 			$this->createMock(IClientService::class),
 			$this->createMock(IConfig::class),
 			$this->configurationService,
+			$this->createMock(IRemoteHostValidator::class),
 		);
 	}
 

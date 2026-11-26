@@ -15,6 +15,7 @@ use OCA\DAVC\Service\ConfigurationService;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\Security\IRemoteHostValidator;
 use Psr\Log\LoggerInterface;
 
 class RemoteFactory {
@@ -24,6 +25,7 @@ class RemoteFactory {
 		private readonly IClientService $clientService,
 		private readonly IConfig $config,
 		private readonly ConfigurationService $configurationService,
+		private readonly IRemoteHostValidator $remoteHostValidator,
 	) {
 	}
 
@@ -35,7 +37,7 @@ class RemoteFactory {
 			throw new \RuntimeException('Insecure (http) connections are not permitted by the administrator.');
 		}
 
-		$client = new RemoteClient($this->clientService);
+		$client = new RemoteClient($this->clientService, $this->remoteHostValidator);
 		$client->configureTransportAgent(self::$clientTransportAgent);
 		$client->configureLocation(
 			$service->getLocationProtocol(),

@@ -13,7 +13,10 @@ use OCA\DAVC\AppInfo\Application;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\Http\Client\LocalServerException;
+use OCP\Security\IRemoteHostValidator;
 use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service as SabreXmlService;
@@ -92,6 +95,7 @@ class RemoteClient {
 
 	public function __construct(
 		private IClientService $clientService,
+		private IRemoteHostValidator $remoteHostValidator,
 		?LoggerInterface $logger = null,
 	) {
 		$this->logger = $logger;
@@ -425,7 +429,16 @@ class RemoteClient {
 			\GuzzleHttp\Psr7\Utils::uriFor($path),
 		);
 
+		// server supplied hrefs may point to other hosts, but never downgrade a secure service
+		if ($this->requiresSecureTransport() && strtolower($uri->getScheme()) !== 'https') {
+			throw new \RuntimeException('Refused insecure (http) request to ' . $uri->getHost() . ', the service requires a secure (https) connection.');
+		}
+
 		return (string)$uri;
+	}
+
+	private function requiresSecureTransport(): bool {
+		return strtolower($this->locationProtocol) === 'https';
 	}
 
 	private function buildOptionsRequestOptions(array $additionalHeaders = [], array $additionalOptions = []): array {
@@ -441,7 +454,17 @@ class RemoteClient {
 			'headers' => $headers,
 			'timeout' => IClient::DEFAULT_REQUEST_TIMEOUT,
 			'verify' => $this->locationSecurity,
-			'allow_redirects' => ['strict' => true, 'max' => 5],
+			'allow_redirects' => [
+				'strict' => true,
+				'max' => 5,
+				'protocols' => $this->requiresSecureTransport() ? ['https'] : ['http', 'https'],
+				// replaces the local address check of the Nextcloud client, which is dropped when redirect options are set
+				'on_redirect' => function (mixed $request, mixed $response, UriInterface $uri): void {
+					if (!$this->remoteHostValidator->isValid($uri->getHost())) {
+						throw new LocalServerException('Host "' . $uri->getHost() . '" violates local access rules');
+					}
+				},
+			],
 		];
 
 		$options = array_merge($options, $additionalOptions);
