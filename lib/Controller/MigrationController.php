@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAVC\Controller;
 
 use OCA\DAVC\BackgroundJob\MigrationJob;
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Service\MigrationService;
 use OCA\DAVC\Service\Native\NativeContactsService;
 use OCA\DAVC\Service\Native\NativeEventsService;
@@ -91,19 +92,22 @@ class MigrationController extends Controller {
 		}
 
 		$job = $this->findJobForService($sid);
-		if ($job !== null) {
-			$state = $job->getArgument();
-			if ($state['status'] === MigrationService::STATUS_RUNNING) {
-				return new DataResponse('a migration is already running for this service', Http::STATUS_CONFLICT);
-			}
-			// if a finished migration for this service is still lingering; clear it before starting a new one
-			$this->jobList->removeById($job->getId());
+		if ($job !== null && $job->getArgument()['status'] === MigrationService::STATUS_RUNNING) {
+			return new DataResponse('a migration is already running for this service', Http::STATUS_CONFLICT);
 		}
 
 		try {
 			$state = $this->migrationService->start($this->userId, $sid, $resource, $direction, $source, $target, $overwrite);
+			// if a finished migration for this service is still lingering; clear it before starting a new one
+			if ($job !== null) {
+				$this->jobList->removeById($job->getId());
+			}
 			$this->jobList->add(MigrationJob::class, $state);
 			return new DataResponse($state);
+		} catch (ServiceNotFoundException) {
+			return new DataResponse('Service not found', Http::STATUS_NOT_FOUND);
+		} catch (\InvalidArgumentException $th) {
+			return new DataResponse($th->getMessage(), Http::STATUS_BAD_REQUEST);
 		} catch (\Throwable $th) {
 			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

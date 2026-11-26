@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAVC\Tests\Unit\Service;
 
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Models\Calendars\Entity as CalendarEntity;
 use OCA\DAVC\Models\Contacts\Entity as ContactEntity;
 use OCA\DAVC\Service\MigrationService;
@@ -21,6 +22,7 @@ use OCA\DAVC\Service\Remote\RemoteFactory;
 use OCA\DAVC\Service\ServicesService;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use OCP\AppFramework\Utility\ITimeFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -31,6 +33,9 @@ class MigrationServiceTest extends TestCase {
 	private NativeEventsService&MockObject $nativeEventsService;
 	private NativeContactsService&MockObject $nativeContactsService;
 	private ITimeFactory&MockObject $time;
+	private ?ServiceEntity $userService;
+	/** @var array<array{id: int, uri: string, label: ?string, readOnly: bool}> native collections the user can access */
+	private array $nativeCollections = [];
 
 	private MigrationService $service;
 
@@ -44,8 +49,12 @@ class MigrationServiceTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')->willReturn(0);
 
+		$this->userService = new ServiceEntity();
 		$this->servicesService->method('fetchByUserIdAndServiceId')
-			->willReturn(new ServiceEntity());
+			->willReturnCallback(fn (): ?ServiceEntity => $this->userService);
+		$this->nativeCollections = [['id' => 5, 'uri' => 'personal', 'label' => 'Personal', 'readOnly' => false]];
+		$this->nativeEventsService->method('collectionList')->with('user-1')->willReturnCallback(fn (): array => $this->nativeCollections);
+		$this->nativeContactsService->method('collectionList')->with('user-1')->willReturnCallback(fn (): array => $this->nativeCollections);
 		$this->remoteFactory->method('freshClient')
 			->willReturn($this->createMock(RemoteClient::class));
 
@@ -188,10 +197,81 @@ class MigrationServiceTest extends TestCase {
 	}
 
 	public function testUnknownResourceMarksMigrationFailed(): void {
-		$state = $this->startState('unknown', MigrationService::DIRECTION_OUTBOUND);
+		$state = $this->startState(MigrationService::RESOURCE_EVENT, MigrationService::DIRECTION_OUTBOUND);
+		$state['resource'] = 'unknown';
 		$state = $this->service->process($state, 5);
 
 		$this->assertSame(MigrationService::STATUS_FAILED, $state['status']);
 		$this->assertNotNull($state['lastError']);
+	}
+
+	public function testStartRejectsUnknownResource(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->startState('unknown', MigrationService::DIRECTION_OUTBOUND);
+	}
+
+	public function testStartRejectsUnknownDirection(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->startState(MigrationService::RESOURCE_EVENT, 'sideways');
+	}
+
+	public function testStartRejectsServiceOfOtherUser(): void {
+		$this->userService = null;
+
+		$this->expectException(ServiceNotFoundException::class);
+		$this->startState(MigrationService::RESOURCE_EVENT, MigrationService::DIRECTION_OUTBOUND);
+	}
+
+	public static function migrationProvider(): array {
+		return [
+			'event outbound' => [MigrationService::RESOURCE_EVENT, MigrationService::DIRECTION_OUTBOUND],
+			'event inbound' => [MigrationService::RESOURCE_EVENT, MigrationService::DIRECTION_INBOUND],
+			'contact outbound' => [MigrationService::RESOURCE_CONTACT, MigrationService::DIRECTION_OUTBOUND],
+			'contact inbound' => [MigrationService::RESOURCE_CONTACT, MigrationService::DIRECTION_INBOUND],
+		];
+	}
+
+	#[DataProvider('migrationProvider')]
+	public function testStartRejectsNativeCollectionOfOtherUser(string $resource, string $direction): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->service->start('user-1', 42, $resource, $direction, '99', '99', false);
+	}
+
+	public function testStartRejectsReadOnlyNativeTarget(): void {
+		$this->nativeCollections = [['id' => 5, 'uri' => 'shared', 'label' => 'Shared', 'readOnly' => true]];
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('read-only');
+		$this->startState(MigrationService::RESOURCE_EVENT, MigrationService::DIRECTION_INBOUND);
+	}
+
+	public function testStartAllowsReadOnlyNativeSource(): void {
+		$this->nativeCollections = [['id' => 5, 'uri' => 'shared', 'label' => 'Shared', 'readOnly' => true]];
+
+		$state = $this->startState(MigrationService::RESOURCE_EVENT, MigrationService::DIRECTION_OUTBOUND);
+
+		$this->assertSame(MigrationService::STATUS_RUNNING, $state['status']);
+	}
+
+	public function testProcessFailsWhenNativeCollectionIsNoLongerAccessible(): void {
+		$state = $this->startState(MigrationService::RESOURCE_EVENT, MigrationService::DIRECTION_OUTBOUND);
+		$this->nativeCollections = [];
+		$this->nativeEventsService->expects($this->never())->method('entityListUris');
+		$this->nativeEventsService->expects($this->never())->method('entityFetchMultiple');
+
+		$state = $this->service->process($state, 5);
+
+		$this->assertSame(MigrationService::STATUS_FAILED, $state['status']);
+	}
+
+	public function testProcessFailsWhenNativeTargetBecameReadOnly(): void {
+		$state = $this->startState(MigrationService::RESOURCE_CONTACT, MigrationService::DIRECTION_INBOUND);
+		$this->nativeCollections = [['id' => 5, 'uri' => 'shared', 'label' => 'Shared', 'readOnly' => true]];
+		$this->nativeContactsService->expects($this->never())->method('entityCreate');
+		$this->nativeContactsService->expects($this->never())->method('entityModify');
+
+		$state = $this->service->process($state, 5);
+
+		$this->assertSame(MigrationService::STATUS_FAILED, $state['status']);
 	}
 }

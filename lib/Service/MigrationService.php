@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAVC\Service;
 
 use OCA\DAVC\AppInfo\Application;
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Models\Calendars\Entity as CalendarEntity;
 use OCA\DAVC\Models\Contacts\Entity as ContactEntity;
 use OCA\DAVC\Service\Native\NativeContactsService;
@@ -39,6 +40,8 @@ class MigrationService {
 	public const STATUS_FAILED = 'failed';
 	public const STATUS_CANCELLED = 'cancelled';
 
+	private const RESOURCES = [self::RESOURCE_EVENT, self::RESOURCE_CONTACT];
+	private const DIRECTIONS = [self::DIRECTION_INBOUND, self::DIRECTION_OUTBOUND];
 	private const TERMINAL_STATUSES = [self::STATUS_COMPLETED, self::STATUS_FAILED, self::STATUS_CANCELLED];
 	private const CHUNK_SIZE = 100;
 	private const MAX_ERROR_MESSAGES = 20;
@@ -57,6 +60,9 @@ class MigrationService {
 	 * build the initial state for a new migration
 	 *
 	 * @return array<string, mixed>
+	 *
+	 * @throws ServiceNotFoundException when the service does not exist or belongs to another user
+	 * @throws \InvalidArgumentException when the migration options or the native collection are not valid for the user
 	 */
 	public function start(
 		string $uid,
@@ -67,6 +73,17 @@ class MigrationService {
 		string $target,
 		bool $overwrite,
 	): array {
+		if (!in_array($resource, self::RESOURCES, true)) {
+			throw new \InvalidArgumentException('Unknown resource type ' . $resource);
+		}
+		if (!in_array($direction, self::DIRECTIONS, true)) {
+			throw new \InvalidArgumentException('Unknown migration direction ' . $direction);
+		}
+		if ($this->servicesService->fetchByUserIdAndServiceId($uid, $sid) === null) {
+			throw new ServiceNotFoundException('Service ' . $sid . ' not found');
+		}
+		$this->assertNativeCollectionAccess($uid, $resource, $direction, $direction === self::DIRECTION_INBOUND ? $target : $source);
+
 		return [
 			'uid' => $uid,
 			'sid' => $sid,
@@ -107,6 +124,14 @@ class MigrationService {
 			if ($service === null) {
 				throw new \RuntimeException('Service ' . $state['sid'] . ' no longer exists.');
 			}
+
+			// access to the native collection may have been revoked since the migration was started
+			$this->assertNativeCollectionAccess(
+				(string)$state['uid'],
+				(string)$state['resource'],
+				(string)$state['direction'],
+				(string)($state['direction'] === self::DIRECTION_INBOUND ? $state['target'] : $state['source']),
+			);
 
 			$remoteClient = $this->remoteFactory->freshClient($service);
 
@@ -374,6 +399,29 @@ class MigrationService {
 		}
 
 		return $state;
+	}
+
+	/**
+	 * Ensure the native collection is one the user can access, and can write to when it is the migration target
+	 *
+	 * @throws \InvalidArgumentException
+	 */
+	private function assertNativeCollectionAccess(string $uid, string $resource, string $direction, string $collectionId): void {
+		$native = match ($resource) {
+			self::RESOURCE_EVENT => $this->nativeEventsService,
+			self::RESOURCE_CONTACT => $this->nativeContactsService,
+			default => throw new \InvalidArgumentException('Unknown resource type ' . $resource),
+		};
+		foreach ($native->collectionList($uid) as $collection) {
+			if ((string)$collection['id'] !== $collectionId) {
+				continue;
+			}
+			if ($direction === self::DIRECTION_INBOUND && $collection['readOnly']) {
+				throw new \InvalidArgumentException('The selected collection is read-only.');
+			}
+			return;
+		}
+		throw new \InvalidArgumentException('The selected collection does not exist or is not accessible.');
 	}
 
 	private function extractEventUid(string $data): ?string {
