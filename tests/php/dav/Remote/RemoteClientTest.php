@@ -12,6 +12,7 @@ namespace OCA\DAVC\Tests\Dav\Remote;
 use OCA\DAVC\AppInfo\Application;
 use OCA\DAVC\Service\Remote\RemoteClient;
 use OCP\Http\Client\IClientService;
+use OCP\Security\IRemoteHostValidator;
 use PHPUnit\Framework\Attributes\Group;
 use Psr\Http\Client\ClientExceptionInterface;
 use Test\TestCase;
@@ -43,7 +44,7 @@ class RemoteClientTest extends TestCase {
 		$this->davPassword = $this->requiredEnv('DAV_PASSWORD');
 
 		$container = (new Application())->getContainer();
-		$this->client = new RemoteClient($container->get(IClientService::class));
+		$this->client = new RemoteClient($container->get(IClientService::class), $container->get(IRemoteHostValidator::class));
 		$this->client->configureLocation(
 			$this->davProtocol,
 			$this->davHost,

@@ -15,6 +15,7 @@ use OCA\DAVC\Models\Contacts\Entity;
 use OCA\DAVC\Service\Remote\RemoteClient;
 use OCA\DAVC\Service\Remote\RemoteContactsService;
 use OCP\Http\Client\IClientService;
+use OCP\Security\IRemoteHostValidator;
 use PHPUnit\Framework\Attributes\Group;
 use Sabre\VObject\Component;
 use Sabre\VObject\Reader;
@@ -37,7 +38,7 @@ class RemoteContactsServiceTest extends TestCase {
 		$davPassword = $this->requiredEnv('DAV_PASSWORD');
 
 		$container = (new Application())->getContainer();
-		$this->client = new RemoteClient($container->get(IClientService::class));
+		$this->client = new RemoteClient($container->get(IClientService::class), $container->get(IRemoteHostValidator::class));
 		$this->client->configureLocation(
 			$davProtocol,
 			$davHost,
