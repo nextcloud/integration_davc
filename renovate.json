@@ -24,12 +24,26 @@
 	"enabledManagers": [
 		"composer",
 		"github-actions",
-		"npm"
+		"npm",
+		"custom.regex"
 	],
 	"ignoreDeps": [
 		"node",
 		"npm",
 		"php"
+	],
+	"customManagers": [
+		{
+			"customType": "regex",
+			"description": "Update DAV server images, which are selected inside workflow expressions",
+			"managerFilePatterns": [
+				"/^\\.github/workflows/dav-integration\\.yml$/"
+			],
+			"matchStrings": [
+				"'(?<depName>(?:[a-z0-9.-]+/)+[a-z0-9._-]+):(?<currentValue>[A-Za-z0-9._-]+)'"
+			],
+			"datasourceTemplate": "docker"
+		}
 	],
 	"packageRules": [
 		{
