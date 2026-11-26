@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAVC\Controller;
 
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Service\CoreService;
 use OCA\DAVC\Service\HarmonizationService;
 use OCA\DAVC\Service\ServicesService;
@@ -18,6 +19,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-api
@@ -30,6 +32,7 @@ class UserConfigurationController extends Controller {
 		private readonly CoreService $CoreService,
 		private readonly HarmonizationService $HarmonizationService,
 		private readonly ServicesService $ServicesService,
+		private readonly LoggerInterface $logger,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -53,7 +56,7 @@ class UserConfigurationController extends Controller {
 			$rs = $this->ServicesService->fetchByUserId($this->userId);
 			return new DataResponse($rs);
 		} catch (\Throwable $th) {
-			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return $this->failure($th);
 		}
 
 	}
@@ -80,7 +83,7 @@ class UserConfigurationController extends Controller {
 		} catch (\InvalidArgumentException|\RuntimeException $th) {
 			return new DataResponse($th->getMessage(), Http::STATUS_BAD_REQUEST);
 		} catch (\Throwable $th) {
-			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return $this->failure($th);
 		}
 
 	}
@@ -105,7 +108,7 @@ class UserConfigurationController extends Controller {
 			$this->CoreService->disconnectAccount($this->userId, $sid);
 			return new DataResponse('success');
 		} catch (\Throwable $th) {
-			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return $this->failure($th);
 		}
 
 	}
@@ -130,7 +133,7 @@ class UserConfigurationController extends Controller {
 			$this->HarmonizationService->performHarmonization($this->userId, $sid, 'M');
 			return new DataResponse('success');
 		} catch (\Throwable $th) {
-			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return $this->failure($th);
 		}
 
 	}
@@ -155,7 +158,7 @@ class UserConfigurationController extends Controller {
 			$rs = $this->CoreService->remoteCollectionsFetch($this->userId, $sid);
 			return new DataResponse($rs);
 		} catch (\Throwable $th) {
-			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return $this->failure($th);
 		}
 	}
 
@@ -179,7 +182,7 @@ class UserConfigurationController extends Controller {
 			$rs = $this->CoreService->localCollectionsFetch($this->userId, $sid);
 			return new DataResponse($rs);
 		} catch (\Throwable $th) {
-			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return $this->failure($th);
 		}
 
 	}
@@ -204,9 +207,20 @@ class UserConfigurationController extends Controller {
 			$this->CoreService->localCollectionsDeposit($this->userId, $sid, $ContactCorrelations, $EventCorrelations);
 			return $this->localCollectionsFetch($sid);
 		} catch (\Throwable $th) {
-			return new DataResponse($th->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
+			return $this->failure($th);
 		}
 
+	}
+
+	/**
+	 * Convert an exception to a response without exposing internal details
+	 */
+	private function failure(\Throwable $th): DataResponse {
+		if ($th instanceof ServiceNotFoundException) {
+			return new DataResponse('Service not found', Http::STATUS_NOT_FOUND);
+		}
+		$this->logger->error('Dav Connector request failed', ['app' => $this->appName, 'exception' => $th]);
+		return new DataResponse('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
 }
