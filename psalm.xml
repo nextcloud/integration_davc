@@ -28,6 +28,7 @@
 				<referencedClass name="OC" />
                 <referencedClass name="OCP" />
 				<referencedClass name="Doctrine\DBAL\Types\Types" />
+				<referencedClass name="Doctrine\DBAL\Types\Type" />
 				<referencedClass name="Symfony\Component\Console\Command\Command" />
 				<referencedClass name="OCA\DAV\CalDAV\Integration\ExternalCalendar" />
 				<referencedClass name="OCA\DAV\CalDAV\Integration\ICalendarProvider" />

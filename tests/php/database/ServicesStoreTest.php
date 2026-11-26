@@ -12,8 +12,10 @@ namespace OCA\DAVC\Tests\Database;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use OCA\DAVC\Store\Local\ServicesStore;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 #[Group('DB')]
@@ -27,7 +29,7 @@ class ServicesStoreTest extends TestCase {
 		parent::setUp();
 
 		$this->db = Server::get(IDBConnection::class);
-		$this->store = new ServicesStore($this->db);
+		$this->store = new ServicesStore($this->db, Server::get(ICrypto::class), Server::get(LoggerInterface::class));
 
 		$this->purgeTestData();
 	}
@@ -128,6 +130,43 @@ class ServicesStoreTest extends TestCase {
 		$services = $this->store->list($filter);
 		$this->assertIsArray($services);
 		$this->assertCount(0, $services);
+	}
+
+	public function testCredentialsAreStoredEncrypted(): void {
+		$service = $this->createServiceEntity($this->userId, 'alpha.example.test');
+		$service->setOauthAccessToken('access-token');
+		$service = $this->store->create($service);
+
+		$row = $this->fetchRow((int)$service->getId());
+		$this->assertNotSame('secret', $row['bauth_secret']);
+		$this->assertNotSame('access-token', $row['oauth_access_token']);
+		$this->assertNull($row['oauth_refresh_token']);
+
+		$fetched = $this->store->fetch((int)$service->getId());
+		$this->assertSame('secret', $fetched->getBauthSecret());
+		$this->assertSame('access-token', $fetched->getOauthAccessToken());
+		$this->assertNull($fetched->getOauthRefreshToken());
+	}
+
+	public function testModifyEncryptsChangedCredentials(): void {
+		$service = $this->store->create($this->createServiceEntity($this->userId, 'alpha.example.test'));
+
+		$service->setBauthSecret('changed-secret');
+		$this->store->modify($this->userId, $service);
+
+		$this->assertNotSame('changed-secret', $this->fetchRow((int)$service->getId())['bauth_secret']);
+		$this->assertSame('changed-secret', $this->store->fetch((int)$service->getId())->getBauthSecret());
+	}
+
+	private function fetchRow(int $id): array {
+		$qb = $this->db->getQueryBuilder();
+		$result = $qb->select('*')
+			->from('davc_services')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
+			->executeQuery();
+		$row = $result->fetch();
+		$result->closeCursor();
+		return $row;
 	}
 
 	private function createServiceEntity(string $uid, string $host): ServiceEntity {
