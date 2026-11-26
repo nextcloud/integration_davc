@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAVC\Tests\Unit\Service;
 
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Service\ConfigurationService;
 use OCA\DAVC\Service\ContactsService;
 use OCA\DAVC\Service\EventsService;
@@ -60,6 +61,14 @@ class HarmonizationServiceTest extends TestCase {
 		$this->contactsService->expects($this->never())->method('harmonize');
 
 		$this->harmonizationService->performHarmonizationForService($service);
+	}
+
+	public function testPerformHarmonizationThrowsWhenServiceIsNotTheUsers(): void {
+		$this->servicesService->method('fetchByUserIdAndServiceId')->with('user1', 3)->willReturn(null);
+		$this->remoteFactory->expects($this->never())->method('freshClient');
+
+		$this->expectException(ServiceNotFoundException::class);
+		$this->harmonizationService->performHarmonization('user1', 3);
 	}
 
 }

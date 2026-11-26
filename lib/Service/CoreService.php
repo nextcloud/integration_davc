@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\DAVC\Service;
 
 use OCA\DAVC\Constants;
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Service\Local\LocalFactory;
 use OCA\DAVC\Service\Remote\RemoteFactory;
+use OCA\DAVC\Store\Local\CollectionEntity;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use OCP\BackgroundJob\IJobList;
 use Psr\Log\LoggerInterface;
@@ -216,7 +218,7 @@ class CoreService {
 			$info = $remoteStore->discover();
 		} catch (Throwable $e) {
 			$this->logger->error('Connection failed:', ['app' => 'davc', 'exception' => $e]);
-			throw new \RuntimeException(sprintf('DAV discovery failed for %s: %s', $endpoint, $e->getMessage()), 0, $e);
+			throw new \RuntimeException(sprintf('DAV discovery failed for %s, verify the server address and credentials.', $endpoint), 0, $e);
 		}
 
 		// determine if connection was established
@@ -255,12 +257,7 @@ class CoreService {
 	 */
 	public function disconnectAccount(string $uid, int $sid): void {
 
-		// retrieve service information
-		$service = $this->ServicesService->fetch($sid);
-		// determine if user if the service owner
-		if ($service->getUid() !== $uid) {
-			return;
-		}
+		$service = $this->fetchService($uid, $sid);
 		// deregister task
 		$this->TaskService->remove(\OCA\DAVC\Tasks\HarmonizationLauncher::class, ['uid' => $uid, 'sid' => $sid]);
 		// initialize contacts data store
@@ -292,12 +289,7 @@ class CoreService {
 
 		// construct response object
 		$data = ['ContactsSupported' => false, 'ContactsCollections' => [], 'EventsSupported' => false, 'EventsCollections' => []];
-		// retrieve service information
-		$service = $this->ServicesService->fetch($sid);
-		// determine if user is the service owner
-		if ($service->getUid() !== $uid) {
-			return $data;
-		}
+		$service = $this->fetchService($uid, $sid);
 		// create remote store client
 		$remoteStore = $this->remoteFactory->freshClient($service);
 		// retrieve collections for contacts module
@@ -358,12 +350,7 @@ class CoreService {
 
 		// construct response object
 		$data = ['ContactCollections' => [], 'EventCollections' => []];
-		// retrieve service information
-		$service = $this->ServicesService->fetch($sid);
-		// determine if user if the service owner
-		if ($service->getUid() !== $uid) {
-			return $data;
-		}
+		$this->fetchService($uid, $sid);
 		// retrieve local collections
 		if ($this->ConfigurationService->isContactsAppAvailable()) {
 			$localStore = $this->localFactory->contactsStore();
@@ -389,12 +376,7 @@ class CoreService {
 	 */
 	public function localCollectionsDeposit(string $uid, int $sid, array $cc, array $ec): void {
 
-		// retrieve service information
-		$service = $this->ServicesService->fetch($sid);
-		// determine if user is the service owner
-		if ($service->getUid() !== $uid) {
-			return;
-		}
+		$service = $this->fetchService($uid, $sid);
 		$remoteStore = $this->remoteFactory->freshClient($service);
 		// deposit contacts correlations
 		if ($this->ConfigurationService->isContactsAppAvailable()) {
@@ -416,8 +398,8 @@ class CoreService {
 				switch ((bool)$entry['enabled']) {
 					case false:
 						if (is_numeric($entry['id'])) {
-							$collection = $localStore->collectionFetch($entry['id']);
-							if ($collection->getUid() === $uid) {
+							$collection = $localStore->collectionFetch((int)$entry['id']);
+							if ($this->ownsServiceCollection($collection, $uid, $sid)) {
 								$localStore->collectionDelete($collection);
 							}
 						}
@@ -468,8 +450,8 @@ class CoreService {
 				switch ((bool)$entry['enabled']) {
 					case false:
 						if (is_numeric($entry['id'])) {
-							$collection = $localStore->collectionFetch($entry['id']);
-							if ($collection->getUid() === $uid) {
+							$collection = $localStore->collectionFetch((int)$entry['id']);
+							if ($this->ownsServiceCollection($collection, $uid, $sid)) {
 								$localStore->collectionDelete($collection);
 							}
 						}
@@ -500,7 +482,7 @@ class CoreService {
 							$color = $this->normalizeColor($entry['color'] ?? null);
 							if ($color !== null) {
 								$collection = $localStore->collectionFetch((int)$entry['id']);
-								if ($collection !== null && $collection->getUid() === $uid && $collection->getColor() !== $color) {
+								if ($this->ownsServiceCollection($collection, $uid, $sid) && $collection->getColor() !== $color) {
 									$collection->setColor($color);
 									$localStore->collectionModify($collection);
 								}
@@ -510,6 +492,28 @@ class CoreService {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Retrieve a service owned by the user
+	 *
+	 * @throws ServiceNotFoundException when the service does not exist or belongs to another user
+	 */
+	private function fetchService(string $uid, int $sid): ServiceEntity {
+		$service = $this->ServicesService->fetchByUserIdAndServiceId($uid, $sid);
+		if ($service === null) {
+			throw new ServiceNotFoundException('Service ' . $sid . ' not found');
+		}
+		return $service;
+	}
+
+	/**
+	 * Determine if a local collection exists and belongs to the user and service
+	 *
+	 * @psalm-assert-if-true !null $collection
+	 */
+	private function ownsServiceCollection(?CollectionEntity $collection, string $uid, int $sid): bool {
+		return $collection !== null && $collection->getUid() === $uid && (int)$collection->getSid() === $sid;
 	}
 
 	/**

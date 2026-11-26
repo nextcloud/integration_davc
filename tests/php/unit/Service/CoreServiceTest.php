@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAVC\Tests\Unit\Service;
 
 use OCA\DAVC\Constants;
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Models\Calendars\Collection;
 use OCA\DAVC\Service\ConfigurationService;
 use OCA\DAVC\Service\CoreService;
@@ -23,6 +24,7 @@ use OCA\DAVC\Store\Local\CollectionEntity;
 use OCA\DAVC\Store\Local\EventStore;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use OCP\BackgroundJob\IJobList;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -184,7 +186,7 @@ class CoreServiceTest extends TestCase {
 			->method('add');
 
 		$this->expectException(RuntimeException::class);
-		$this->expectExceptionMessage('DAV discovery failed for https://example.com:443/remote.php/dav: boom');
+		$this->expectExceptionMessage('DAV discovery failed for https://example.com:443/remote.php/dav, verify the server address and credentials.');
 
 		$this->service->connectAccount('user-1', $configuration);
 	}
@@ -297,6 +299,77 @@ class CoreServiceTest extends TestCase {
 		]);
 	}
 
+	public function testLocalCollectionsDepositDoesNotChangeColorOfOtherServicesCalendar(): void {
+		$store = $this->prepareEventsDeposit();
+		$store->method('collectionFetch')->willReturn($this->calendarCollection('user-1', '#111111', '4'));
+		$store->expects($this->never())->method('collectionModify');
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => true, 'color' => '#22aa33'],
+		]);
+	}
+
+	public function testLocalCollectionsDepositDeletesDisabledCalendar(): void {
+		$store = $this->prepareEventsDeposit();
+		$collection = $this->calendarCollection('user-1', '#111111');
+		$store->method('collectionFetch')->with(5)->willReturn($collection);
+		$store->expects($this->once())->method('collectionDelete')->with($collection);
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => '5', 'ccid' => '/calendars/user/personal/', 'enabled' => false],
+		]);
+	}
+
+	public function testLocalCollectionsDepositIgnoresMissingDisabledCalendar(): void {
+		$store = $this->prepareEventsDeposit();
+		$store->method('collectionFetch')->willReturn(null);
+		$store->expects($this->never())->method('collectionDelete');
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => false],
+		]);
+	}
+
+	public function testLocalCollectionsDepositDoesNotDeleteOtherServicesCalendar(): void {
+		$store = $this->prepareEventsDeposit();
+		$store->method('collectionFetch')->willReturn($this->calendarCollection('user-1', '#111111', '4'));
+		$store->expects($this->never())->method('collectionDelete');
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => false],
+		]);
+	}
+
+	public function testLocalCollectionsDepositDoesNotDeleteOtherUsersCalendar(): void {
+		$store = $this->prepareEventsDeposit();
+		$store->method('collectionFetch')->willReturn($this->calendarCollection('user-2', '#111111'));
+		$store->expects($this->never())->method('collectionDelete');
+
+		$this->service->localCollectionsDeposit('user-1', 3, [], [
+			['id' => 5, 'ccid' => '/calendars/user/personal/', 'enabled' => false],
+		]);
+	}
+
+	public static function serviceOperationProvider(): array {
+		return [
+			'disconnect' => [fn (CoreService $service) => $service->disconnectAccount('user-1', 3)],
+			'remote collections fetch' => [fn (CoreService $service) => $service->remoteCollectionsFetch('user-1', 3)],
+			'local collections fetch' => [fn (CoreService $service) => $service->localCollectionsFetch('user-1', 3)],
+			'local collections deposit' => [fn (CoreService $service) => $service->localCollectionsDeposit('user-1', 3, [], [])],
+		];
+	}
+
+	#[DataProvider('serviceOperationProvider')]
+	public function testServiceOperationThrowsWhenServiceIsNotTheUsers(\Closure $operation): void {
+		$this->servicesService->method('fetchByUserIdAndServiceId')->with('user-1', 3)->willReturn(null);
+		$this->servicesService->expects($this->never())->method('delete');
+		$this->remoteFactory->expects($this->never())->method('freshClient');
+		$this->localFactory->expects($this->never())->method($this->anything());
+
+		$this->expectException(ServiceNotFoundException::class);
+		$operation($this->service);
+	}
+
 	public function testLocalCollectionsDepositPrefersPickedColorForNewCalendar(): void {
 		$remoteCollection = new Collection();
 		$remoteCollection->label = 'Personal';
@@ -320,7 +393,7 @@ class CoreServiceTest extends TestCase {
 	private function prepareEventsDeposit(?string $calendarHome = null): EventStore&MockObject {
 		$service = new ServiceEntity();
 		$service->setUid('user-1');
-		$this->servicesService->method('fetch')->with(3)->willReturn($service);
+		$this->servicesService->method('fetchByUserIdAndServiceId')->with('user-1', 3)->willReturn($service);
 
 		$remoteClient = $this->createMock(RemoteClient::class);
 		$remoteClient->method('getCalendarHome')->willReturn($calendarHome);
@@ -335,10 +408,11 @@ class CoreServiceTest extends TestCase {
 		return $store;
 	}
 
-	private function calendarCollection(string $uid, string $color): CollectionEntity {
+	private function calendarCollection(string $uid, string $color, string $sid = '3'): CollectionEntity {
 		$collection = new CollectionEntity();
 		$collection->setId(5);
 		$collection->setUid($uid);
+		$collection->setSid($sid);
 		$collection->setColor($color);
 		return $collection;
 	}

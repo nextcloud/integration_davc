@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAVC\Service;
 
+use OCA\DAVC\Exception\ServiceNotFoundException;
 use OCA\DAVC\Service\Remote\RemoteFactory;
 use OCA\DAVC\Store\Local\ServiceEntity;
 use Psr\Log\LoggerInterface;
@@ -31,12 +32,18 @@ class HarmonizationService {
 	 * @param int $sid service id
 	 *
 	 * @return void
+	 *
+	 * @throws ServiceNotFoundException when the service does not exist or belongs to another user
 	 */
 	public function performHarmonization(string $uid, ?int $sid = null): void {
 
 		if ($sid !== null) {
 			// retrieve service
-			$services[] = $this->servicesService->fetchByUserIdAndServiceId($uid, $sid);
+			$service = $this->servicesService->fetchByUserIdAndServiceId($uid, $sid);
+			if ($service === null) {
+				throw new ServiceNotFoundException('Service ' . $sid . ' not found');
+			}
+			$services = [$service];
 		} else {
 			// retrieve all services
 			$services = $this->servicesService->fetchByUserId($uid);
